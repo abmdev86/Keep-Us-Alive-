@@ -13,20 +13,77 @@ namespace com.sluggagames.keepUsAlive.Core
 
         Dictionary<int, Character> _selectedCharacters = new Dictionary<int, Character>();
         Dictionary<string, GameObject> _selectedCharPortraits = new Dictionary<string, GameObject>();
-
-        CinemachineVirtualCamera virtualCam;
+       
+        CinemachineFreeLook virtualCam;
+        MouseTracker mouseTracker;
 
         [SerializeField] GameObject selectedCharPanel;
         [SerializeField]
         [Tooltip("The max amount of characters the player can select at one time.")]
         int maxSelectableCharacters = 20;
         bool hasCharacter = false;
-
+        
         protected override void Awake()
         {
             base.Awake();
-            virtualCam = GetComponent<CinemachineVirtualCamera>();
+            virtualCam = GameObject.FindObjectOfType<CinemachineFreeLook>();
+            mouseTracker = FindObjectOfType<MouseTracker>();
+
+           
         }
+
+        private void Start()
+        {
+            UpdateCamera(mouseTracker.transform);
+        }
+        private void Update()
+        {
+            
+            selectedCharPanel.SetActive(hasCharacter);
+            if (hasCharacter)
+            {
+                Survivor survivor = null;
+                if (survivor)
+                {
+                    return;
+                }
+                else
+                {
+                    foreach(KeyValuePair<int,Character> character in _selectedCharacters)
+                    {
+                        survivor = (Survivor)character.Value;
+                        if (survivor)
+                        {
+                            break;
+                        }
+
+                    }
+                }
+                UpdateCamera(survivor.transform);
+            }
+            if (_selectedCharacters.Count > 0)
+            {
+                hasCharacter = true;
+            }
+
+            if (Input.GetMouseButtonDown(1))
+            {
+                MoveSelectedCharacters();
+            }
+            if (Input.GetMouseButtonDown(0))
+            {
+                ClearSelection();
+            }
+
+        }
+
+        private void UpdateCamera(Transform _transform)
+        {
+            virtualCam.LookAt = _transform.transform;
+            virtualCam.Follow = _transform.transform;
+            
+        }
+
         public Vector3 GetMousePosition()
         {
 
@@ -52,24 +109,7 @@ namespace com.sluggagames.keepUsAlive.Core
         }
 
 
-        private void Update()
-        {
-            selectedCharPanel.SetActive(hasCharacter);
-            if (_selectedCharacters.Count > 0)
-            {
-                hasCharacter = true;
-            }
-         
-            if (Input.GetMouseButtonDown(1))
-            {
-                MoveSelectedCharacters();
-            }
-            if (Input.GetMouseButtonDown(0))
-            {
-                ClearSelection();
-            }
-
-        }
+   
 
         void UpdatePanel(Character _character)
         {
@@ -95,9 +135,11 @@ namespace com.sluggagames.keepUsAlive.Core
         void ClearSelection()
         {
             if (GetHitData().transform.gameObject.tag != "Ground") return;
+                
             if (_selectedCharacters.Count > 0)
             {
                 _selectedCharacters.Clear();
+                UpdateCamera(mouseTracker.transform);
                 foreach(KeyValuePair<string, GameObject> portrait in _selectedCharPortraits)
                 {
                     
@@ -107,6 +149,10 @@ namespace com.sluggagames.keepUsAlive.Core
                 }
                 _selectedCharPortraits.Clear();
                 hasCharacter = false;
+            }
+            else
+            {
+                return;
             }
             
         }
