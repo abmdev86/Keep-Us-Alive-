@@ -1,3 +1,5 @@
+using Cinemachine;
+using com.sluggagames.keepUsAlive.CharacterSystem;
 using com.sluggagames.keepUsAlive.Utils;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,11 +14,19 @@ namespace com.sluggagames.keepUsAlive.Core
         Dictionary<int, Character> _selectedCharacters = new Dictionary<int, Character>();
         Dictionary<string, GameObject> _selectedCharPortraits = new Dictionary<string, GameObject>();
 
+        CinemachineVirtualCamera virtualCam;
+
         [SerializeField] GameObject selectedCharPanel;
         [SerializeField]
         [Tooltip("The max amount of characters the player can select at one time.")]
         int maxSelectableCharacters = 20;
         bool hasCharacter = false;
+
+        protected override void Awake()
+        {
+            base.Awake();
+            virtualCam = GetComponent<CinemachineVirtualCamera>();
+        }
         public Vector3 GetMousePosition()
         {
 
@@ -30,7 +40,6 @@ namespace com.sluggagames.keepUsAlive.Core
                 if (hitData.transform.gameObject.tag == "Ground")
                     destination = hitData.point;
             }
-            print(destination);
             return destination;
         }
 
