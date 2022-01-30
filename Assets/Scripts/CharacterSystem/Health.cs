@@ -23,11 +23,11 @@ namespace com.sluggagames.keepUsAlive.CharacterSystem
             {
                 if (characterHealth <= 0)
                 {
-                    return _isDead = true;
+                    return this._isDead = true;
                 }
                 else
                 {
-                    return _isDead = false;
+                    return this._isDead = false;
                 }
             }
         }
