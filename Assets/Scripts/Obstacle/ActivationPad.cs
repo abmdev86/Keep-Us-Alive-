@@ -20,7 +20,7 @@ namespace com.sluggagames.keepUsAlive.Obstacle
             if (survivor)
             {
                 if (survivor.hasKey) return;
-                print($"{currentTime}");
+               
                 currentTime += Time.deltaTime;
 
                 print($"+{currentTime}");
