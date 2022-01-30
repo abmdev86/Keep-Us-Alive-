@@ -51,6 +51,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5774424259801034861, guid: 70ac26cfdbbaa03419e7840ff107a95e, type: 3}
+      propertyPath: m_Size.x
+      value: 6.9430027
+      objectReference: {fileID: 0}
+    - target: {fileID: 5774424259801034861, guid: 70ac26cfdbbaa03419e7840ff107a95e, type: 3}
+      propertyPath: m_Center.x
+      value: 2.971502
+      objectReference: {fileID: 0}
+    - target: {fileID: 5774424259801034861, guid: 70ac26cfdbbaa03419e7840ff107a95e, type: 3}
+      propertyPath: m_Center.z
+      value: 1.826723e-15
+      objectReference: {fileID: 0}
     - target: {fileID: 5774424259801034863, guid: 70ac26cfdbbaa03419e7840ff107a95e, type: 3}
       propertyPath: m_Name
       value: Door
@@ -74,3 +86,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4c7b5efe9c03da49b62fc4c75ff9111, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  KeyActivationAmount: 2
+  openDoorHeight: 0

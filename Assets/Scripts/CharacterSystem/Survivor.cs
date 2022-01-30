@@ -1,6 +1,5 @@
 using com.sluggagames.keepUsAlive.Core;
-using System.Collections;
-using System.Collections.Generic;
+using com.sluggagames.keepUsAlive.Obstacle;
 using UnityEngine;
 
 namespace com.sluggagames.keepUsAlive.CharacterSystem
@@ -9,6 +8,7 @@ namespace com.sluggagames.keepUsAlive.CharacterSystem
     {
         internal int keyAmount = 0;
         internal bool hasKey = false;
+
       
         private void Update()
         {
@@ -35,6 +35,11 @@ namespace com.sluggagames.keepUsAlive.CharacterSystem
             if (!hasKey) return;
             keyAmount -= 1;
             if (keyAmount < 0) keyAmount = 0;
+        }
+
+        public void DropKey()
+        {
+          
         }
 
         

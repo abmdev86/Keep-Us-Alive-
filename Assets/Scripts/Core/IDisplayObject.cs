@@ -4,9 +4,8 @@ using UnityEngine;
 
 namespace com.sluggagames.keepUsAlive.Core
 {
-    public class MouseTracker : MonoBehaviour
+    public interface IDisplayObject 
     {
-
-     
+      
     }
 }

@@ -1,10 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
+using com.sluggagames.keepUsAlive.Core;
 using UnityEngine;
 
 namespace com.sluggagames.keepUsAlive.Obstacle
 {
-    public class ObstacleBase : MonoBehaviour
+    public class ObstacleBase : MonoBehaviour, IDisplayObject
     {
         [Tooltip("The number of activation pads required to move obstacle")]
         [SerializeField] internal int KeyActivationAmount = 2;

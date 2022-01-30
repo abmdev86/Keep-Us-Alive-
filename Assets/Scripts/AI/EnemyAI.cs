@@ -73,7 +73,7 @@ namespace com.sluggagames.keepUsAlive.AI
 
         private void Update()
         {
-            if (_enemy.IsDead) return;
+            if (_enemy.characterHealth.IsDead) return;
             UpdateTarget();
             UpdateState();
 

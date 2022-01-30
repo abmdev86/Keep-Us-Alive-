@@ -1,5 +1,6 @@
 using Cinemachine;
 using com.sluggagames.keepUsAlive.CharacterSystem;
+using com.sluggagames.keepUsAlive.Obstacle;
 using com.sluggagames.keepUsAlive.Utils;
 using System.Collections;
 using System.Collections.Generic;
@@ -17,14 +18,16 @@ namespace com.sluggagames.keepUsAlive.Core
         CinemachineFreeLook virtualCam;
         MouseTracker mouseTracker;
 
-        [SerializeField] GameObject selectedCharPanel;
-        [SerializeField]
-        [Tooltip("The max amount of characters the player can select at one time.")]
-        int maxSelectableCharacters = 20;
         bool hasCharacter = false;
+        int levelKeyAmount = 0;
+        [SerializeField] GameObject activationPadPrefab;
+
+        [SerializeField] GameObject selectedCharPanel;
+        [Tooltip("The max amount of characters the player can select at one time.")]
+        [SerializeField] int maxSelectableCharacters = 20;
         [SerializeField] Text keyAmountText;
 
-        int levelKeyAmount = 0;
+       
 
         protected override void Awake()
         {
@@ -145,9 +148,6 @@ namespace com.sluggagames.keepUsAlive.Core
             }
             _selectedCharPortraits.Add(imageObj.name, imageObj);
 
-
-
-
         }
 
         void ClearSelection()
@@ -203,6 +203,10 @@ namespace com.sluggagames.keepUsAlive.Core
             UpdatePanel(_character);
         }
 
+        public GameObject GetActivationPad(Vector3 _spawnPos)
+        {
+            return Instantiate(activationPadPrefab, _spawnPos, Quaternion.identity);
+        }
         public int GetSelectedCount()
         {
             return _selectedCharacters.Count;

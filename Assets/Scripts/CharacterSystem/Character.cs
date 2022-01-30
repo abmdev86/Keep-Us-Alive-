@@ -1,6 +1,4 @@
 using com.sluggagames.keepUsAlive.Core;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -9,11 +7,10 @@ namespace com.sluggagames.keepUsAlive.CharacterSystem
 {
     [RequireComponent(typeof(NavMeshAgent))]
 
-    public class Character : MonoBehaviour
+    public class Character : MonoBehaviour, IDisplayObject
     {
-        [SerializeField]
+       
         int _id;
-        NavMeshAgent mover;
         public int Id
         {
             get
@@ -21,25 +18,10 @@ namespace com.sluggagames.keepUsAlive.CharacterSystem
                 return _id;
             }
         }
-        [SerializeField] float health = 1;
-        [SerializeField] bool _isDead;
-        public bool IsDead
-        {
-            get
-            {
-                if (health <= 0)
-                {
-                    return _isDead = true;
-                }
-                else
-                {
-                    return _isDead = false;
-                }
-            }
-        }
-        [SerializeField] float maxSpeed;
-        [SerializeField]
-        Sprite characterIcon;
+        NavMeshAgent mover;
+        [SerializeField] internal GameObject characterUIPrefab;
+
+        [SerializeField] Sprite characterIcon;
         public Sprite CharacterIcon
         {
             get
@@ -48,14 +30,29 @@ namespace com.sluggagames.keepUsAlive.CharacterSystem
             }
         }
 
+        [SerializeField] float maxSpeed;
+        [SerializeField] internal Health characterHealth;
+       
+   
+
         protected virtual void Awake()
         {
             mover = GetComponent<NavMeshAgent>();
+            characterHealth = GetComponent<Health>();
             int randomId = Random.Range(1, 100) * 1000;
             _id = randomId;
+            
 
         }
-
+        private void Start()
+        {
+            if(characterUIPrefab != null)
+            {
+                GameObject _characterUIGO = Instantiate(characterUIPrefab);
+                DisplayData _characterUI = _characterUIGO.GetComponent<DisplayData>();
+                _characterUI.SetTarget(this.characterHealth);
+            }
+        }
         private void OnMouseDown()
         {
             if (this.gameObject.tag == "Enemy") return;
@@ -71,7 +68,7 @@ namespace com.sluggagames.keepUsAlive.CharacterSystem
 
         public void MoveCharacter(Vector3 _destination, float _speedFraction = 1)
         {
-            if (_isDead) return;
+            if (characterHealth.IsDead) return;
             mover.destination = _destination;
             mover.speed = maxSpeed * Mathf.Clamp01(_speedFraction);
         }

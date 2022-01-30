@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1292794721093484913}
   - component: {fileID: 1292794721093484925}
   - component: {fileID: 1292794721093484922}
+  - component: {fileID: 1073545513905071323}
   m_Layer: 0
   m_Name: Character
   m_TagString: Untagged
@@ -110,8 +111,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af3753d3f6d96ec4288f7f9206d7779e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _id: 0
+  characterUIPrefab: {fileID: 839938085579549767, guid: e5573d6abd31d8743946dcd4424aa204, type: 3}
   characterIcon: {fileID: 0}
+  maxSpeed: 0
+  characterHealth: {fileID: 0}
 --- !u!195 &1292794721093484922
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -134,3 +137,17 @@ NavMeshAgent:
   m_BaseOffset: 0.78
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &1073545513905071323
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1292794721093484912}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 125d55b95072eb847a8d2396c2817f55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterHealth: 1
+  _isDead: 0
