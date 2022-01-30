@@ -31,16 +31,11 @@ namespace com.sluggagames.keepUsAlive.Obstacle
             if(other.gameObject.tag == "Player")
             {
                 Survivor survivor = other.gameObject.GetComponent<Survivor>();
-                if (survivor)
+                if (survivor && survivor.hasKey)
                 {
-                    if (survivor.hasKey)
-                    {
-                        AddToCurrentKeyCount(survivor.key);
+                   AddToCurrentKeyCount(survivor.key);
                         survivor.RemoveKey();
-                        
-
-                    }
-                    
+               
                 }
             }
         }
