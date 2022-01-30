@@ -187,14 +187,7 @@ namespace com.sluggagames.keepUsAlive.Core
             }
             else
             {
-                //foreach (KeyValuePair<string, Survivor> survivor in selectedSurvivors)
-                //{
-                //    if (survivor.Value.Id != newSurvivor.Id)
-                //    {
-                //        RemoveFromSelection(survivor.Value);
-
-                //    }
-                //}
+               
                 ClearSelection();
                 selectedSurvivors.Add(newSurvivor.Id, newSurvivor);
                 UpdatePanel(newSurvivor);
