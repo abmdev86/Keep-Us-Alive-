@@ -42,7 +42,7 @@ namespace com.sluggagames.keepUsAlive.Core
 
             if(healthSlider != null)
             {
-                print("has health slider");
+               
                 DisplayCharacterHealth();
             }
         }

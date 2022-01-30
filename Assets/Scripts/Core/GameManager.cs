@@ -16,7 +16,7 @@ namespace com.sluggagames.keepUsAlive.Core
         Dictionary<string, GameObject> _selectedCharPortraits = new Dictionary<string, GameObject>();
 
         CinemachineFreeLook virtualCam;
-        CamTracker camTracker;
+       
         Character mainSurvivor;
 
         bool hasCharacter = false;
@@ -33,30 +33,23 @@ namespace com.sluggagames.keepUsAlive.Core
         protected override void Awake()
         {
             base.Awake();
-            virtualCam = GameObject.FindObjectOfType<CinemachineFreeLook>();
-            camTracker = FindObjectOfType<CamTracker>();
+           // virtualCam = GameObject.FindObjectOfType<CinemachineFreeLook>();
+           
 
 
         }
 
         private void Start()
         {
-            UpdateCamera(camTracker.transform);
+            
             keyAmountText.text = UpdateTextValue("Key(s):", 0);
         }
         private void Update()
         {
 
             selectedCharPanel.SetActive(hasCharacter);
-            if (hasCharacter && mainSurvivor)
-            {
-                
-                UpdateCamera(mainSurvivor.transform);
-            }
-            else
-            {
-                UpdateCamera(camTracker.transform);
-            }
+           
+           
             if (GetSelectedCount() > 0)
             {
                 hasCharacter = true;
@@ -69,7 +62,7 @@ namespace com.sluggagames.keepUsAlive.Core
             if (Input.GetMouseButtonDown(0) && GetSelectedCount() > 0)
             {
                 if (GetHitData().transform.gameObject.tag != "Ground") return;
-
+                // clear selection when clicking the ground.
                 ClearSelection();
             }
 
@@ -177,7 +170,7 @@ namespace com.sluggagames.keepUsAlive.Core
             if (GetSelectedCount() > 0)
             {
                 _selectedCharacters.Clear();
-                UpdateCamera(camTracker.transform);
+                
                 foreach (KeyValuePair<string, GameObject> portrait in _selectedCharPortraits)
                 {
 

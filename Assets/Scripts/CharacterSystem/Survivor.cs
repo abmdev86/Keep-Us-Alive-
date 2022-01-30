@@ -22,7 +22,7 @@ namespace com.sluggagames.keepUsAlive.CharacterSystem
             }
 
          
-            print($"hasKey? {hasKey}");
+            
         }
 
         public void AddKey(ActivationPad _key)
