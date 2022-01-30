@@ -4,8 +4,9 @@ using UnityEngine;
 
 namespace com.sluggagames.keepUsAlive.Core
 {
-    public interface IDisplayObject 
+    public class CamTracker : MonoBehaviour
     {
-      
+
+     
     }
 }

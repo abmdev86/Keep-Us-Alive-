@@ -16,7 +16,8 @@ namespace com.sluggagames.keepUsAlive.Core
         Dictionary<string, GameObject> _selectedCharPortraits = new Dictionary<string, GameObject>();
 
         CinemachineFreeLook virtualCam;
-        MouseTracker mouseTracker;
+        CamTracker camTracker;
+        Character mainSurvivor;
 
         bool hasCharacter = false;
         int levelKeyAmount = 0;
@@ -33,61 +34,58 @@ namespace com.sluggagames.keepUsAlive.Core
         {
             base.Awake();
             virtualCam = GameObject.FindObjectOfType<CinemachineFreeLook>();
-            mouseTracker = FindObjectOfType<MouseTracker>();
+            camTracker = FindObjectOfType<CamTracker>();
 
 
         }
 
         private void Start()
         {
-            UpdateCamera(mouseTracker.transform);
+            UpdateCamera(camTracker.transform);
             keyAmountText.text = UpdateTextValue("Key(s):", 0);
         }
         private void Update()
         {
 
             selectedCharPanel.SetActive(hasCharacter);
-            if (hasCharacter)
+            if (hasCharacter && mainSurvivor)
             {
-                Survivor survivor = null;
-                if (survivor)
-                {
-                    return;
-                }
-                else
-                {
-                    foreach (KeyValuePair<int, Character> character in _selectedCharacters)
-                    {
-                        survivor = (Survivor)character.Value;
-                        if (survivor)
-                        {
-                            break;
-                        }
-
-                    }
-                }
-                UpdateCamera(survivor.transform);
+                
+                UpdateCamera(mainSurvivor.transform);
             }
-            if (_selectedCharacters.Count > 0)
+            else
+            {
+                UpdateCamera(camTracker.transform);
+            }
+            if (GetSelectedCount() > 0)
             {
                 hasCharacter = true;
             }
 
-            if (Input.GetMouseButtonDown(1))
+            if (Input.GetMouseButtonDown(1) && GetSelectedCount() > 0)
             {
                 MoveSelectedCharacters();
             }
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) && GetSelectedCount() > 0)
             {
+                if (GetHitData().transform.gameObject.tag != "Ground") return;
+
                 ClearSelection();
             }
 
         }
-        public void IncreaseLevelKeyAmount()
+        public void IncreaseCurrentKeyValue(ActivationPad _key)
         {
-            levelKeyAmount++;
-            keyAmountText.text = UpdateTextValue("Key(s):", levelKeyAmount);
+            
+            levelKeyAmount += _key.activationValue;
+            keyAmountText.text = UpdateTextValue("Key", levelKeyAmount);
             StoreKeyAmount(levelKeyAmount);
+        }
+
+        public void DecreaseCurrentKeyValue(ActivationPad _key)
+        {
+            levelKeyAmount -= _key.activationValue;
+            keyAmountText.text = UpdateTextValue("Key", levelKeyAmount);
         }
         void StoreKeyAmount(int _value)
         {
@@ -98,6 +96,11 @@ namespace com.sluggagames.keepUsAlive.Core
         {
             return $"{msg}: {v}";
         }
+
+        /// <summary>
+        /// Updates the virtual camera's LookAt and Follow targets.
+        /// </summary>
+        /// <param name="_transform">the target's transform</param>
         private void UpdateCamera(Transform _transform)
         {
             virtualCam.LookAt = _transform.transform;
@@ -105,19 +108,24 @@ namespace com.sluggagames.keepUsAlive.Core
 
         }
 
+        /// <summary>
+        ///  Gets the current ScreenPointToRay of the mousePosition
+        /// </summary>
+        /// <returns>hit.point as Vector3</returns>
         public Vector3 GetMousePosition()
         {
 
 
             Vector3 destination = Vector3.zero;
-            RaycastHit hitData;
-            var mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-            bool hit = Physics.Raycast(mouseRay, out hitData);
-            if (hit)
-            {
-                if (hitData.transform.gameObject.tag == "Ground")
-                    destination = hitData.point;
-            }
+            RaycastHit hitData = GetHitData();
+            destination = hitData.point;
+            //var mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+            //bool hit = Physics.Raycast(mouseRay, out hitData);
+            //if (hitData)
+            //{
+            //    if (hitData.transform.gameObject.tag == "Ground")
+            //        destination = hitData.point;
+            //}
             return destination;
         }
 
@@ -134,6 +142,7 @@ namespace com.sluggagames.keepUsAlive.Core
 
         void UpdatePanel(Character _character)
         {
+            // we already have this character being displayed
             if (_selectedCharPortraits.ContainsKey(_character.Id.ToString()))
             {
                 return;
@@ -142,22 +151,33 @@ namespace com.sluggagames.keepUsAlive.Core
             GameObject imageObj = new GameObject(_character.Id.ToString(), typeof(Image));
             imageObj.transform.SetParent(selectedCharPanel.transform, false);
             imageObj.GetComponent<Image>().sprite = _character.CharacterIcon;
-            if (_selectedCharPortraits.ContainsKey(imageObj.name))
-            {
-                Debug.LogWarning("Already added portrait for " + imageObj.name);
-            }
+            //if (_selectedCharPortraits.ContainsKey(imageObj.name))
+            //{
+            //    Debug.LogWarning("Already added portrait for " + imageObj.name);
+            //}
             _selectedCharPortraits.Add(imageObj.name, imageObj);
 
         }
 
+        public void RemoveFromSelection(Character _charToRemove)
+        {
+            if (_selectedCharacters.ContainsKey(_charToRemove.Id))
+            {
+                GameObject _destroyThis = _selectedCharPortraits[_charToRemove.Id.ToString()];
+                _selectedCharPortraits.Remove(_charToRemove.Id.ToString());
+                Destroy(_destroyThis);
+                _selectedCharacters.Remove(_charToRemove.Id);
+                hasCharacter = _selectedCharacters.Count > 0;
+            }
+        }
+
         void ClearSelection()
         {
-            if (GetHitData().transform.gameObject.tag != "Ground") return;
 
-            if (_selectedCharacters.Count > 0)
+            if (GetSelectedCount() > 0)
             {
                 _selectedCharacters.Clear();
-                UpdateCamera(mouseTracker.transform);
+                UpdateCamera(camTracker.transform);
                 foreach (KeyValuePair<string, GameObject> portrait in _selectedCharPortraits)
                 {
 
@@ -189,6 +209,10 @@ namespace com.sluggagames.keepUsAlive.Core
         }
         public void AddCharacterToSelected(Character _character)
         {
+            if(GetSelectedCount() == 0)
+            {
+                mainSurvivor = _character;
+            }
             if (_selectedCharacters.ContainsKey(_character.Id))
             {
                 Debug.LogWarning("Character already selected ", this);

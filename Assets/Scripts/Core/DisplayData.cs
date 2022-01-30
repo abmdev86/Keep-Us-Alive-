@@ -1,7 +1,5 @@
 using com.sluggagames.keepUsAlive.CharacterSystem;
 using com.sluggagames.keepUsAlive.Obstacle;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
@@ -28,6 +26,7 @@ namespace com.sluggagames.keepUsAlive.Core
         {
             this.transform.SetParent(GameObject.Find("UI").transform, false);
             canvasGroup = this.GetComponent<CanvasGroup>();
+            
            
             
 
@@ -65,10 +64,10 @@ namespace com.sluggagames.keepUsAlive.Core
 
         void DisplayCharacterHealth()
         {
-            var _health = GetComponent<Health>();
-            if (_health)
+          
+            if (target)
             {
-                healthSlider.value = _health.CharacterHealth;
+                healthSlider.value = target.CharacterHealth;
             }
             else
             {
@@ -85,6 +84,7 @@ namespace com.sluggagames.keepUsAlive.Core
             target = _target;
             targetTransform = this.target.GetComponent<Transform>();
             targetRenderer = this.target.GetComponent<Renderer>();
+           
             NavMeshAgent navAgent = target.GetComponent<NavMeshAgent>();
 
             if(navAgent != null)

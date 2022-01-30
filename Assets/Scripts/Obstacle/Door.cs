@@ -14,7 +14,7 @@ namespace com.sluggagames.keepUsAlive.Obstacle
 
         private void Update()
         {
-          if(this.currentKeyAmount == this.KeyActivationAmount)
+          if(this.currentKeyAmount == this.numOfKeysToActivate)
             {
                 ActivateObstacle();
             }
@@ -35,8 +35,9 @@ namespace com.sluggagames.keepUsAlive.Obstacle
                 {
                     if (survivor.hasKey)
                     {
+                        AddToCurrentKeyCount(survivor.key);
                         survivor.RemoveKey();
-                        AddToCurrentKeyAmount();
+
                     }
                     else
                     {
@@ -44,6 +45,11 @@ namespace com.sluggagames.keepUsAlive.Obstacle
                     }
                 }
             }
+        }
+
+        public override void AddToCurrentKeyCount(ActivationPad _key)
+        {
+            this.currentKeyAmount += _key.activationValue;
         }
 
     }

@@ -1,3 +1,4 @@
+using com.sluggagames.keepUsAlive.CharacterSystem;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -45,15 +46,16 @@ namespace com.sluggagames.keepUsAlive.AI
         [SerializeField] float _pointTolerance;
         [Tooltip("How long should I wait at the waypoint?")]
         [SerializeField] float _pointDwellTime;
+        [Tooltip("How long the enemy will be aware of survivor presence")]
+        [SerializeField] float _awarnessTime = 3f;
         [Tooltip("How slow should I patrol compared to actual movement speed?")]
         [Range(0, 1)]
         [SerializeField] float _patrolSpeedFraction = 0.2f;
         int _currentWaypointIndex = 0;
-        int _pointIndex = 0;
         Vector3 originalPos;
         float _timeSinceLastSeenSurvivor = Mathf.Infinity;
         float _timeSinceArrivedAtPoint = Mathf.Infinity;
-        [SerializeField] float _awarnessTime = 3f;
+
 
         private void Awake()
         {
@@ -110,14 +112,14 @@ namespace com.sluggagames.keepUsAlive.AI
                 cachedState = _currentState;
                 _currentState = EnemyStates.Patrol;
                 _previousState = cachedState;
-                print($"Changed from {_previousState} to {_currentState}");
+                //print($"Changed from {_previousState} to {_currentState}");
             }
             else if (_target && InAttackRange(_target))
             {
                 cachedState = _currentState;
                 _currentState = EnemyStates.Attack;
                 _previousState = cachedState;
-                print($"Changed from {_previousState} to {_currentState}");
+               // print($"Changed from {_previousState} to {_currentState}");
 
             }
             else if (_target && InPursuitRange(_target))
@@ -125,14 +127,14 @@ namespace com.sluggagames.keepUsAlive.AI
                 cachedState = _currentState;
                 _currentState = EnemyStates.Pursuit;
                 _previousState = cachedState;
-                print($"Changed from {_previousState} to {_currentState}");
+              //  print($"Changed from {_previousState} to {_currentState}");
             }
             else if (_timeSinceLastSeenSurvivor < _awarnessTime && IsAware(_target))
             {
                 cachedState = _currentState;
                 _currentState = EnemyStates.Aware;
                 _previousState = cachedState;
-                print($"Changed from {_previousState} to {_currentState}");
+              //  print($"Changed from {_previousState} to {_currentState}");
 
             }
         }
@@ -194,7 +196,7 @@ namespace com.sluggagames.keepUsAlive.AI
                     _currentState = _previousState;
                 }
             }
-           
+
 
         }
         void PursuitState()
@@ -205,9 +207,12 @@ namespace com.sluggagames.keepUsAlive.AI
         void AttackState()
         {
             _timeSinceLastSeenSurvivor = 0;
-            _enemy.MoveCharacter(_target.transform.position);
+            Health _attackTarget = _target.GetComponent<Health>();
+            _enemy.MoveCharacter(_attackTarget.transform.position);
+            StartCoroutine(_enemy.Attack(_attackTarget));
 
         }
+
 
         Vector3 GetCurrentWaypoint()
         {
@@ -267,7 +272,7 @@ namespace com.sluggagames.keepUsAlive.AI
     /// <summary>
     /// Handles for change range of AttackDistance
     /// </summary>
-    #if UNITY_EDITOR
+#if UNITY_EDITOR
     [CustomEditor(typeof(EnemyAI))]
     [CanEditMultipleObjects]
     public class AIEditor : Editor

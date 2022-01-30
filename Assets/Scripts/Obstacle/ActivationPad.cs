@@ -1,39 +1,43 @@
 using com.sluggagames.keepUsAlive.CharacterSystem;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace com.sluggagames.keepUsAlive.Obstacle
 {
     public class ActivationPad : MonoBehaviour
     {
-       [SerializeField] ObstacleBase obstacleToControl;
-        [SerializeField] float activationTime = 2f;
-        float currentTime;
+
+        [SerializeField] internal float activationTime = 2f;
+        [SerializeField] internal int activationValue = 1;
+        float currentTime = 0;
 
 
 
         private void OnTriggerStay(Collider other)
         {
+            
             if (other.gameObject.tag != "Player") return;
             Survivor survivor = other.gameObject.GetComponent<Survivor>();
             if (survivor)
             {
                 if (survivor.hasKey) return;
+                print($"{currentTime}");
                 currentTime += Time.deltaTime;
+
+                print($"+{currentTime}");
+
                 if (currentTime >= activationTime)
                 {
                     currentTime = 0;
-                    survivor.AddKey(); 
+                    survivor.AddKey(this);
                     Destroy(gameObject);
                 }
 
             }
-       
-            
+
+
         }
 
-      
+
 
     }
 }

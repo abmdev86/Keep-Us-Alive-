@@ -1,38 +1,30 @@
-using com.sluggagames.keepUsAlive.Core;
+
 using UnityEngine;
 
 namespace com.sluggagames.keepUsAlive.Obstacle
 {
-    public class ObstacleBase : MonoBehaviour, IDisplayObject
+    public class ObstacleBase : MonoBehaviour
     {
         [Tooltip("The number of activation pads required to move obstacle")]
-        [SerializeField] internal int KeyActivationAmount = 2;
-        internal int currentKeyAmount;
-        public int CurrentActivationAmount
+        [SerializeField] internal int numOfKeysToActivate = 2;
+        internal int currentKeyAmount = 0;
+        
+        public virtual void AddToCurrentKeyCount(ActivationPad _key)
         {
-            get
-            {
-                return currentKeyAmount;
-
-            }
-           
-        }
-
-        public virtual void AddToCurrentKeyAmount()
-        {
-            currentKeyAmount += 1;
+            //currentKeyAmount += 1;
+            currentKeyAmount += _key.activationValue;
         }
 
         public virtual void ActivateObstacle()
         {
-            if (currentKeyAmount != KeyActivationAmount) return;
+            if (currentKeyAmount != numOfKeysToActivate) return;
             print("moving obstacle");
 
         }
 
         public int GetKeyActivationAmount()
         {
-            return KeyActivationAmount;
+            return numOfKeysToActivate;
         }
         public int GetCurrentKeyAmount()
         {

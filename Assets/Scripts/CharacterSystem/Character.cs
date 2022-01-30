@@ -7,7 +7,7 @@ namespace com.sluggagames.keepUsAlive.CharacterSystem
 {
     [RequireComponent(typeof(NavMeshAgent))]
 
-    public class Character : MonoBehaviour, IDisplayObject
+    public class Character : MonoBehaviour
     {
        
         int _id;
@@ -56,7 +56,8 @@ namespace com.sluggagames.keepUsAlive.CharacterSystem
         private void OnMouseDown()
         {
             if (this.gameObject.tag == "Enemy") return;
-            AddToSelectedObjects(this);
+            if (characterHealth.IsDead) return;
+            AddToSelectedObjects((Survivor)this);
             // add an effect
         }
 
