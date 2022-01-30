@@ -181,7 +181,20 @@ namespace com.sluggagames.keepUsAlive.AI
         }
         void AwareState()
         {
-            _enemy.MoveCharacter(originalPos);
+            _timeSinceLastSeenSurvivor = 0;
+            if (_target)
+            {
+                if (_target.gameObject.tag == "Player")
+                {
+                    _previousState = _currentState;
+                    _currentState = EnemyStates.Pursuit;
+                }
+                else
+                {
+                    _currentState = _previousState;
+                }
+            }
+           
 
         }
         void PursuitState()
@@ -254,6 +267,7 @@ namespace com.sluggagames.keepUsAlive.AI
     /// <summary>
     /// Handles for change range of AttackDistance
     /// </summary>
+    #if UNITY_EDITOR
     [CustomEditor(typeof(EnemyAI))]
     [CanEditMultipleObjects]
     public class AIEditor : Editor
@@ -290,5 +304,6 @@ namespace com.sluggagames.keepUsAlive.AI
 
 
     }
+#endif
 
 }

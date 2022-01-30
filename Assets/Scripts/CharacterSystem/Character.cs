@@ -50,7 +50,6 @@ namespace com.sluggagames.keepUsAlive.CharacterSystem
 
         protected virtual void Awake()
         {
-           // transform.position = new Vector3(0, 1, 0);
             mover = GetComponent<NavMeshAgent>();
             int randomId = Random.Range(1, 100) * 1000;
             _id = randomId;

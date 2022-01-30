@@ -21,7 +21,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1292794721093484924, guid: ea159284de6d06e43843cc11a9cd0a61, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.641
+      value: 18.86
       objectReference: {fileID: 0}
     - target: {fileID: 1292794721093484924, guid: ea159284de6d06e43843cc11a9cd0a61, type: 3}
       propertyPath: m_LocalPosition.y
@@ -87,9 +87,9 @@ MonoBehaviour:
   pursuitDistance: 4
   awareDistance: 6
   _patrolPath: {fileID: 0}
-  _pointTolerance: 0
-  _pointDwellTime: 0
-  _patrolSpeedFraction: 0.2
+  _pointTolerance: 1
+  _pointDwellTime: 1
+  _patrolSpeedFraction: 0.88
   _awarnessTime: 3
 --- !u!114 &5478752282792948906
 MonoBehaviour:
