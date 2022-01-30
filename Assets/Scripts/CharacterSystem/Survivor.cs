@@ -1,36 +1,58 @@
 using com.sluggagames.keepUsAlive.Core;
 using com.sluggagames.keepUsAlive.Obstacle;
+using com.sluggagames.keepUsAlive.Utils;
 using UnityEngine;
 
 namespace com.sluggagames.keepUsAlive.CharacterSystem
 {
-    public class Survivor : Character
+    public class Survivor : Character, ISelectable
     {
-        internal int keyAmount = 0;
+      // internal int keyAmount = 0;
+        [SerializeField]
         internal bool hasKey = false;
         internal ActivationPad key;
-      
+
+        protected override void Awake()
+        {
+            base.Awake();
+          
+            print($"Survivor {_id} created");
+        }
         private void Update()
         {
-            if (keyAmount > 0)
+            CheckForKeys();
+
+        }
+
+        private void CheckForKeys()
+        {
+            if (key)
             {
                 hasKey = true;
             }
-            else if (keyAmount <= 0)
+            else
             {
                 hasKey = false;
             }
+        }
 
-         
-            
+        private void OnMouseDown()
+        {
+           
+            if (characterHealth.IsDead) return;
+            AddToSelectedObjects(this);
+            // add an effect
+        }
+        public void AddToSelectedObjects(Survivor _survivor)
+        {
+            if (_survivor.Id == null) return;
+            GameManager.Instance.AddCharacterToSelected(_survivor);
         }
 
         public void AddKey(ActivationPad _key)
         {
             if (hasKey) return;
-            keyAmount = _key.activationValue;
             GameManager.Instance.IncreaseCurrentKeyValue(_key);
-            // keyAmount += 1;
             key = _key;
         }
         
@@ -39,7 +61,6 @@ namespace com.sluggagames.keepUsAlive.CharacterSystem
             if (!hasKey) return;
             GameManager.Instance.DecreaseCurrentKeyValue(key);
             key = null;
-            hasKey = false;
         }
 
         public void DropKey(ActivationPad _key)
@@ -53,7 +74,9 @@ namespace com.sluggagames.keepUsAlive.CharacterSystem
 
         }
 
-        
-
+        public void Selected()
+        {
+            Debug.Log($"{this.Id} was selected");
+        }
     }
 }

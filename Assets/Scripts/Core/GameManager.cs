@@ -12,32 +12,20 @@ namespace com.sluggagames.keepUsAlive.Core
     public class GameManager : Singleton<GameManager>
     {
 
-        Dictionary<int, Character> _selectedCharacters = new Dictionary<int, Character>();
-        Dictionary<string, GameObject> _selectedCharPortraits = new Dictionary<string, GameObject>();
-
-        CinemachineFreeLook virtualCam;
-       
-        Character mainSurvivor;
+        Dictionary<string, Survivor> selectedSurvivors = new Dictionary<string, Survivor>();
+        Dictionary<string, GameObject> selectedSurvivorPotraits = new Dictionary<string, GameObject>();
 
         bool hasCharacter = false;
         int levelKeyAmount = 0;
-        [SerializeField] GameObject activationPadPrefab;
+        [SerializeField] GameObject activationPadPrefab; // move to spawner
 
         [SerializeField] GameObject selectedCharPanel;
         [Tooltip("The max amount of characters the player can select at one time.")]
         [SerializeField] int maxSelectableCharacters = 20;
-        [SerializeField] Text keyAmountText;
+        [SerializeField] Text keyAmountText; // move to UI manager.
 
        
 
-        protected override void Awake()
-        {
-            base.Awake();
-           // virtualCam = GameObject.FindObjectOfType<CinemachineFreeLook>();
-           
-
-
-        }
 
         private void Start()
         {
@@ -46,23 +34,26 @@ namespace com.sluggagames.keepUsAlive.Core
         }
         private void Update()
         {
-
+            // show character panel if we have a character to show.
             selectedCharPanel.SetActive(hasCharacter);
            
-           
+           // if the dictionary has 1 or more characters in it then we have a character.
             if (GetSelectedCount() > 0)
             {
                 hasCharacter = true;
             }
 
+            // right mouse clicking and having survivors selected will move them
             if (Input.GetMouseButtonDown(1) && GetSelectedCount() > 0)
             {
                 MoveSelectedCharacters();
             }
+
+            // if we click the ground we clear our selection if we have anything.
             if (Input.GetMouseButtonDown(0) && GetSelectedCount() > 0)
             {
                 if (GetHitData().transform.gameObject.tag != "Ground") return;
-                // clear selection when clicking the ground.
+                
                 ClearSelection();
             }
 
@@ -90,16 +81,7 @@ namespace com.sluggagames.keepUsAlive.Core
             return $"{msg}: {v}";
         }
 
-        /// <summary>
-        /// Updates the virtual camera's LookAt and Follow targets.
-        /// </summary>
-        /// <param name="_transform">the target's transform</param>
-        private void UpdateCamera(Transform _transform)
-        {
-            virtualCam.LookAt = _transform.transform;
-            virtualCam.Follow = _transform.transform;
-
-        }
+      
 
         /// <summary>
         ///  Gets the current ScreenPointToRay of the mousePosition
@@ -107,21 +89,17 @@ namespace com.sluggagames.keepUsAlive.Core
         /// <returns>hit.point as Vector3</returns>
         public Vector3 GetMousePosition()
         {
-
-
             Vector3 destination = Vector3.zero;
             RaycastHit hitData = GetHitData();
             destination = hitData.point;
-            //var mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-            //bool hit = Physics.Raycast(mouseRay, out hitData);
-            //if (hitData)
-            //{
-            //    if (hitData.transform.gameObject.tag == "Ground")
-            //        destination = hitData.point;
-            //}
+        
             return destination;
         }
 
+        /// <summary>
+        /// Get the data point of where the mouse clicked.
+        /// </summary>
+        /// <returns></returns>
         public RaycastHit GetHitData()
         {
             RaycastHit _hitData;
@@ -133,34 +111,31 @@ namespace com.sluggagames.keepUsAlive.Core
 
 
 
-        void UpdatePanel(Character _character)
+        void UpdatePanel(Survivor _survivor)
         {
             // we already have this character being displayed
-            if (_selectedCharPortraits.ContainsKey(_character.Id.ToString()))
+            if (selectedSurvivorPotraits.ContainsKey(_survivor.Id.ToString()))
             {
                 return;
             }
 
-            GameObject imageObj = new GameObject(_character.Id.ToString(), typeof(Image));
+            GameObject imageObj = new GameObject(_survivor.Id.ToString(), typeof(Image));
             imageObj.transform.SetParent(selectedCharPanel.transform, false);
-            imageObj.GetComponent<Image>().sprite = _character.CharacterIcon;
-            //if (_selectedCharPortraits.ContainsKey(imageObj.name))
-            //{
-            //    Debug.LogWarning("Already added portrait for " + imageObj.name);
-            //}
-            _selectedCharPortraits.Add(imageObj.name, imageObj);
+            imageObj.GetComponent<Image>().sprite = _survivor.CharacterIcon;
+        
+            selectedSurvivorPotraits.Add(imageObj.name, imageObj);
 
         }
 
-        public void RemoveFromSelection(Character _charToRemove)
+        public void RemoveFromSelection(Survivor _survivorToRemove)
         {
-            if (_selectedCharacters.ContainsKey(_charToRemove.Id))
+            if (selectedSurvivors.ContainsKey(_survivorToRemove.Id))
             {
-                GameObject _destroyThis = _selectedCharPortraits[_charToRemove.Id.ToString()];
-                _selectedCharPortraits.Remove(_charToRemove.Id.ToString());
+                GameObject _destroyThis = selectedSurvivorPotraits[_survivorToRemove.Id.ToString()];
+                selectedSurvivorPotraits.Remove(_survivorToRemove.Id.ToString());
                 Destroy(_destroyThis);
-                _selectedCharacters.Remove(_charToRemove.Id);
-                hasCharacter = _selectedCharacters.Count > 0;
+                selectedSurvivors.Remove(_survivorToRemove.Id);
+                hasCharacter = selectedSurvivors.Count > 0;
             }
         }
 
@@ -169,16 +144,16 @@ namespace com.sluggagames.keepUsAlive.Core
 
             if (GetSelectedCount() > 0)
             {
-                _selectedCharacters.Clear();
+                selectedSurvivors.Clear();
                 
-                foreach (KeyValuePair<string, GameObject> portrait in _selectedCharPortraits)
+                foreach (KeyValuePair<string, GameObject> portrait in selectedSurvivorPotraits)
                 {
 
                     Destroy(portrait.Value.gameObject);
 
 
                 }
-                _selectedCharPortraits.Clear();
+                selectedSurvivorPotraits.Clear();
                 hasCharacter = false;
             }
             else
@@ -190,34 +165,31 @@ namespace com.sluggagames.keepUsAlive.Core
 
         void MoveSelectedCharacters()
         {
-            if (_selectedCharacters.Count == 0)
+            if (selectedSurvivors.Count == 0)
             {
                 Debug.LogWarning("Nothing to move", this);
                 return;
             }
-            foreach (KeyValuePair<int, Character> character in _selectedCharacters)
+            foreach (KeyValuePair<string, Survivor> survivor in selectedSurvivors)
             {
-                character.Value.MoveCharacter(GetMousePosition());
+                survivor.Value.MoveCharacter(GetMousePosition());
             }
         }
-        public void AddCharacterToSelected(Character _character)
+        public void AddCharacterToSelected(Survivor _survivor)
         {
-            if(GetSelectedCount() == 0)
-            {
-                mainSurvivor = _character;
-            }
-            if (_selectedCharacters.ContainsKey(_character.Id))
+           
+            if (selectedSurvivors.ContainsKey(_survivor.Id))
             {
                 Debug.LogWarning("Character already selected ", this);
                 return;
             }
-            if (_selectedCharacters.Count >= maxSelectableCharacters)
+            if (selectedSurvivors.Count >= maxSelectableCharacters)
             {
                 Debug.LogWarning("Can't select anymore characters", this);
                 return;
             }
-            _selectedCharacters.Add(_character.Id, _character);
-            UpdatePanel(_character);
+            selectedSurvivors.Add(_survivor.Id, _survivor);
+            UpdatePanel(_survivor);
         }
 
         public GameObject GetActivationPad(Vector3 _spawnPos)
@@ -226,7 +198,7 @@ namespace com.sluggagames.keepUsAlive.Core
         }
         public int GetSelectedCount()
         {
-            return _selectedCharacters.Count;
+            return selectedSurvivors.Count;
         }
     }
 }
