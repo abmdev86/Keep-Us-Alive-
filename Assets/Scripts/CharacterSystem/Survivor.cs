@@ -8,7 +8,7 @@ namespace com.sluggagames.keepUsAlive.CharacterSystem
     {
         internal int keyAmount = 0;
         internal bool hasKey = false;
-        public ActivationPad key = null;
+        internal ActivationPad key;
       
         private void Update()
         {
@@ -37,7 +37,9 @@ namespace com.sluggagames.keepUsAlive.CharacterSystem
         public void RemoveKey()
         {
             if (!hasKey) return;
+            GameManager.Instance.DecreaseCurrentKeyValue(key);
             key = null;
+            hasKey = false;
         }
 
         public void DropKey(ActivationPad _key)

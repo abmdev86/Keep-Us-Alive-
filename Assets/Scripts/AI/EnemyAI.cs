@@ -18,6 +18,8 @@ namespace com.sluggagames.keepUsAlive.AI
     {
         EnemyStates _currentState = EnemyStates.Patrol;
         EnemyStates _previousState;
+
+        // TODO: Update from GameObject to Survivor.
         GameObject[] _targets;
         GameObject _target;
         Enemy _enemy;
@@ -76,6 +78,7 @@ namespace com.sluggagames.keepUsAlive.AI
         private void Update()
         {
             if (_enemy.characterHealth.IsDead) return;
+            // temp fix
             UpdateTarget();
             UpdateState();
 
@@ -141,7 +144,8 @@ namespace com.sluggagames.keepUsAlive.AI
 
         void UpdateTarget()
         {
-            if (_target != null) return;
+           
+
             for (int i = 0; i < _targets.Length; i++)
             {
                 if (_target == _targets[i]) return;

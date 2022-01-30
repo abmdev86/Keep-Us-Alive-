@@ -8,7 +8,7 @@ namespace com.sluggagames.keepUsAlive.Obstacle
         [Tooltip("The number of activation pads required to move obstacle")]
         [SerializeField] internal int numOfKeysToActivate = 2;
         internal int currentKeyAmount = 0;
-        
+
         public virtual void AddToCurrentKeyCount(ActivationPad _key)
         {
             //currentKeyAmount += 1;

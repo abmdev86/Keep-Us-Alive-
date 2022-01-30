@@ -29,7 +29,7 @@ namespace com.sluggagames.keepUsAlive.Obstacle
                 {
                     currentTime = 0;
                     survivor.AddKey(this);
-                    Destroy(gameObject);
+                    gameObject.SetActive(false);
                 }
 
             }

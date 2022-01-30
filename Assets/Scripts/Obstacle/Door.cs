@@ -26,7 +26,7 @@ namespace com.sluggagames.keepUsAlive.Obstacle
             gameObject.SetActive(false);
         }
 
-        private void OnTriggerStay(Collider other)
+        private void OnTriggerEnter(Collider other)
         {
             if(other.gameObject.tag == "Player")
             {
@@ -37,12 +37,10 @@ namespace com.sluggagames.keepUsAlive.Obstacle
                     {
                         AddToCurrentKeyCount(survivor.key);
                         survivor.RemoveKey();
+                        
 
                     }
-                    else
-                    {
-                        return;
-                    }
+                    
                 }
             }
         }
