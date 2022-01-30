@@ -9,6 +9,7 @@ namespace com.sluggagames.keepUsAlive.Obstacle
         [SerializeField] internal int numOfKeysToActivate = 2;
         internal int currentKeyAmount = 0;
 
+
         public virtual void AddToCurrentKeyCount(ActivationPad _key)
         {
             //currentKeyAmount += 1;
