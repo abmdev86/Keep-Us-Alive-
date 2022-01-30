@@ -175,10 +175,31 @@ namespace com.sluggagames.keepUsAlive.Core
                 survivor.Value.MoveCharacter(GetMousePosition());
             }
         }
-        public void AddCharacterToSelected(Survivor _survivor)
+        public void AddSurviorToSelected(Survivor _survivor)
         {
-           
-            if (selectedSurvivors.ContainsKey(_survivor.Id))
+            Survivor newSurvivor = _survivor;
+
+            if (selectedSurvivors.Count == 0)
+            {
+                selectedSurvivors.Add(newSurvivor.Id, newSurvivor);
+                UpdatePanel(newSurvivor);
+
+            }
+            else
+            {
+                //foreach (KeyValuePair<string, Survivor> survivor in selectedSurvivors)
+                //{
+                //    if (survivor.Value.Id != newSurvivor.Id)
+                //    {
+                //        RemoveFromSelection(survivor.Value);
+
+                //    }
+                //}
+                ClearSelection();
+                selectedSurvivors.Add(newSurvivor.Id, newSurvivor);
+                UpdatePanel(newSurvivor);
+            }
+            if (selectedSurvivors.ContainsKey(newSurvivor.Id))
             {
                 Debug.LogWarning("Character already selected ", this);
                 return;
@@ -188,8 +209,9 @@ namespace com.sluggagames.keepUsAlive.Core
                 Debug.LogWarning("Can't select anymore characters", this);
                 return;
             }
-            selectedSurvivors.Add(_survivor.Id, _survivor);
-            UpdatePanel(_survivor);
+           
+           
+           
         }
 
         public GameObject GetActivationPad(Vector3 _spawnPos)

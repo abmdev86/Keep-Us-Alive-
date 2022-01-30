@@ -46,7 +46,7 @@ namespace com.sluggagames.keepUsAlive.CharacterSystem
         public void AddToSelectedObjects(Survivor _survivor)
         {
             if (_survivor.Id == null) return;
-            GameManager.Instance.AddCharacterToSelected(_survivor);
+            GameManager.Instance.AddSurviorToSelected(_survivor);
         }
 
         public void AddKey(ActivationPad _key)
