@@ -33,7 +33,7 @@ namespace com.sluggagames.keepUsAlive.Core
             {
                 // bounding box that is 0 high and positioned at the current height of the camera.
                 float cameraHeight = transform.position.y;
-                print($"Camera Height {cameraHeight}");
+             
 
                 // figure position of corners of bounding box in World space.
                 Vector3 minLimit = new Vector3(minimumLimit.x, cameraHeight, minimumLimit.y);

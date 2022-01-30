@@ -21,7 +21,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1292794721093484924, guid: ea159284de6d06e43843cc11a9cd0a61, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -18.27
+      value: -18.18
       objectReference: {fileID: 0}
     - target: {fileID: 1292794721093484924, guid: ea159284de6d06e43843cc11a9cd0a61, type: 3}
       propertyPath: m_LocalPosition.y
@@ -29,7 +29,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1292794721093484924, guid: ea159284de6d06e43843cc11a9cd0a61, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 3.76
+      value: 16.92
       objectReference: {fileID: 0}
     - target: {fileID: 1292794721093484924, guid: ea159284de6d06e43843cc11a9cd0a61, type: 3}
       propertyPath: m_LocalRotation.w
@@ -100,6 +100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterUIPrefab: {fileID: 839938085579549767, guid: e5573d6abd31d8743946dcd4424aa204, type: 3}
-  characterIcon: {fileID: 21300000, guid: bb09c0d966b93504fb473fa79f84b274, type: 3}
+  characterIcon: {fileID: 21300000, guid: 3702440557ab0094ca893fae08442652, type: 3}
   maxSpeed: 5
   characterHealth: {fileID: 0}
+  hasKey: 0

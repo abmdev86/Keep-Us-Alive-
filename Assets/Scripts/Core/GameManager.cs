@@ -30,7 +30,7 @@ namespace com.sluggagames.keepUsAlive.Core
         private void Start()
         {
             
-            keyAmountText.text = UpdateTextValue("Key(s):", 0);
+            keyAmountText.text = UpdateTextValue("Key(s)", 0);
         }
         private void Update()
         {
@@ -175,6 +175,8 @@ namespace com.sluggagames.keepUsAlive.Core
                 survivor.Value.MoveCharacter(GetMousePosition());
             }
         }
+
+        
         public void AddSurviorToSelected(Survivor _survivor)
         {
             Survivor newSurvivor = _survivor;
@@ -187,21 +189,21 @@ namespace com.sluggagames.keepUsAlive.Core
             }
             else
             {
-               
+                if (selectedSurvivors.ContainsKey(newSurvivor.Id))
+                {
+                    Debug.LogWarning("Character already selected ", this);
+                    return;
+                }
+                if (selectedSurvivors.Count >= maxSelectableCharacters)
+                {
+                    Debug.LogWarning("Can't select anymore characters", this);
+                    return;
+                }
                 ClearSelection();
                 selectedSurvivors.Add(newSurvivor.Id, newSurvivor);
                 UpdatePanel(newSurvivor);
             }
-            if (selectedSurvivors.ContainsKey(newSurvivor.Id))
-            {
-                Debug.LogWarning("Character already selected ", this);
-                return;
-            }
-            if (selectedSurvivors.Count >= maxSelectableCharacters)
-            {
-                Debug.LogWarning("Can't select anymore characters", this);
-                return;
-            }
+           
            
         }
 

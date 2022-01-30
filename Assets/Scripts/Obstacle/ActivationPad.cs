@@ -23,7 +23,7 @@ namespace com.sluggagames.keepUsAlive.Obstacle
                
                 currentTime += Time.deltaTime;
 
-                print($"+{currentTime}");
+               // print($"+{currentTime}");
 
                 if (currentTime >= activationTime)
                 {

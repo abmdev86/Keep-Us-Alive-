@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace com.sluggagames.keepUsAlive.CharacterSystem
 {
-    public class Survivor : Character, ISelectable
+    public class Survivor : Character
     {
       // internal int keyAmount = 0;
         [SerializeField]
@@ -16,7 +16,7 @@ namespace com.sluggagames.keepUsAlive.CharacterSystem
         {
             base.Awake();
           
-            print($"Survivor {_id} created");
+          //  print($"Survivor {_id} created");
         }
         private void Update()
         {
@@ -74,9 +74,6 @@ namespace com.sluggagames.keepUsAlive.CharacterSystem
 
         }
 
-        public void Selected()
-        {
-            Debug.Log($"{this.Id} was selected");
-        }
+       
     }
 }
