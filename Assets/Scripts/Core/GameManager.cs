@@ -203,8 +203,6 @@ namespace com.sluggagames.keepUsAlive.Core
                 return;
             }
            
-           
-           
         }
 
         public GameObject GetActivationPad(Vector3 _spawnPos)
