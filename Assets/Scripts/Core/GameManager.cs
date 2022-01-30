@@ -13,7 +13,7 @@ namespace com.sluggagames.keepUsAlive.Core
 
         Dictionary<int, Character> _selectedCharacters = new Dictionary<int, Character>();
         Dictionary<string, GameObject> _selectedCharPortraits = new Dictionary<string, GameObject>();
-       
+
         CinemachineFreeLook virtualCam;
         MouseTracker mouseTracker;
 
@@ -22,23 +22,27 @@ namespace com.sluggagames.keepUsAlive.Core
         [Tooltip("The max amount of characters the player can select at one time.")]
         int maxSelectableCharacters = 20;
         bool hasCharacter = false;
-        
+        [SerializeField] Text keyAmountText;
+
+        int levelKeyAmount = 0;
+
         protected override void Awake()
         {
             base.Awake();
             virtualCam = GameObject.FindObjectOfType<CinemachineFreeLook>();
             mouseTracker = FindObjectOfType<MouseTracker>();
 
-           
+
         }
 
         private void Start()
         {
             UpdateCamera(mouseTracker.transform);
+            keyAmountText.text = UpdateTextValue("Key(s):", 0);
         }
         private void Update()
         {
-            
+
             selectedCharPanel.SetActive(hasCharacter);
             if (hasCharacter)
             {
@@ -49,7 +53,7 @@ namespace com.sluggagames.keepUsAlive.Core
                 }
                 else
                 {
-                    foreach(KeyValuePair<int,Character> character in _selectedCharacters)
+                    foreach (KeyValuePair<int, Character> character in _selectedCharacters)
                     {
                         survivor = (Survivor)character.Value;
                         if (survivor)
@@ -76,12 +80,26 @@ namespace com.sluggagames.keepUsAlive.Core
             }
 
         }
+        public void IncreaseLevelKeyAmount()
+        {
+            levelKeyAmount++;
+            keyAmountText.text = UpdateTextValue("Key(s):", levelKeyAmount);
+            StoreKeyAmount(levelKeyAmount);
+        }
+        void StoreKeyAmount(int _value)
+        {
+            PlayerPrefs.SetString("CurrentKeys", _value.ToString());
+        }
 
+        string UpdateTextValue(string msg, int v)
+        {
+            return $"{msg}: {v}";
+        }
         private void UpdateCamera(Transform _transform)
         {
             virtualCam.LookAt = _transform.transform;
             virtualCam.Follow = _transform.transform;
-            
+
         }
 
         public Vector3 GetMousePosition()
@@ -109,7 +127,7 @@ namespace com.sluggagames.keepUsAlive.Core
         }
 
 
-   
+
 
         void UpdatePanel(Character _character)
         {
@@ -117,17 +135,17 @@ namespace com.sluggagames.keepUsAlive.Core
             {
                 return;
             }
-           
-                GameObject imageObj = new GameObject(_character.Id.ToString(), typeof(Image));
-                imageObj.transform.SetParent(selectedCharPanel.transform, false);
-                imageObj.GetComponent<Image>().sprite = _character.CharacterIcon;
+
+            GameObject imageObj = new GameObject(_character.Id.ToString(), typeof(Image));
+            imageObj.transform.SetParent(selectedCharPanel.transform, false);
+            imageObj.GetComponent<Image>().sprite = _character.CharacterIcon;
             if (_selectedCharPortraits.ContainsKey(imageObj.name))
             {
                 Debug.LogWarning("Already added portrait for " + imageObj.name);
             }
-                _selectedCharPortraits.Add(imageObj.name, imageObj);
-            
-           
+            _selectedCharPortraits.Add(imageObj.name, imageObj);
+
+
 
 
         }
@@ -135,17 +153,17 @@ namespace com.sluggagames.keepUsAlive.Core
         void ClearSelection()
         {
             if (GetHitData().transform.gameObject.tag != "Ground") return;
-                
+
             if (_selectedCharacters.Count > 0)
             {
                 _selectedCharacters.Clear();
                 UpdateCamera(mouseTracker.transform);
-                foreach(KeyValuePair<string, GameObject> portrait in _selectedCharPortraits)
+                foreach (KeyValuePair<string, GameObject> portrait in _selectedCharPortraits)
                 {
-                    
+
                     Destroy(portrait.Value.gameObject);
-                   
-                   
+
+
                 }
                 _selectedCharPortraits.Clear();
                 hasCharacter = false;
@@ -154,7 +172,7 @@ namespace com.sluggagames.keepUsAlive.Core
             {
                 return;
             }
-            
+
         }
 
         void MoveSelectedCharacters()

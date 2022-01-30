@@ -1,3 +1,4 @@
+using com.sluggagames.keepUsAlive.Core;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,7 +25,9 @@ namespace com.sluggagames.keepUsAlive.CharacterSystem
         public void AddKey()
         {
             if (hasKey) return;
+            GameManager.Instance.IncreaseLevelKeyAmount();
             keyAmount += 1;
+
         }
         
         public void RemoveKey()
