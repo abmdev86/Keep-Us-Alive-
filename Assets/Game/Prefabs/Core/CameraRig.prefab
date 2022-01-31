@@ -45,8 +45,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementSpeed: 20
-  minimumLimit: {x: -10, y: -10}
-  maximumLimit: {x: 10, y: 10}
+  minimumLimit: {x: -70, y: 40}
+  maximumLimit: {x: 70, y: 70}
 --- !u!1 &3774249757483630545
 GameObject:
   m_ObjectHideFlags: 0

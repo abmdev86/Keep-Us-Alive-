@@ -54,7 +54,7 @@ namespace com.sluggagames.keepUsAlive.CharacterSystem
             {
                 // drop any held keys
                 GameManager.Instance.RemoveFromSelection(Survivor);
-                Survivor.DropKey(Survivor.key);
+               // Survivor.DropKey(Survivor.key);
                 
                 //play death animation
 

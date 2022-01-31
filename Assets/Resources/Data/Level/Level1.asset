@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 015c7a8d743ae2748beeb4c8c05cb8b9, type: 3}
+  m_Name: Level1
+  m_EditorClassIdentifier: 
+  levelName: Level1
+  enviromentPrefab: {fileID: 2344346176058631335, guid: 489bedf50c1b0e14a99f69c3f2bd2715, type: 3}
+  ActivationPadPrefab: {fileID: 8980595182365109885, guid: 3951eba089e6add4ea4a379287237306, type: 3}
+  survivorsToSpawn:
+  - {fileID: 5678276593739392271, guid: 3527b575cd9bbd142aff601e57a35443, type: 3}
+  - {fileID: 2858499016246060815, guid: 913cff1aeb3b09e44a240509ec2b528b, type: 3}

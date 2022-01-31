@@ -1,4 +1,5 @@
 using com.sluggagames.keepUsAlive.Core;
+using com.sluggagames.keepUsAlive.LevelManagement;
 using com.sluggagames.keepUsAlive.Obstacle;
 using com.sluggagames.keepUsAlive.Utils;
 using UnityEngine;
@@ -7,38 +8,21 @@ namespace com.sluggagames.keepUsAlive.CharacterSystem
 {
     public class Survivor : Character
     {
-      // internal int keyAmount = 0;
-        [SerializeField]
-        internal bool hasKey = false;
-        internal ActivationPad key;
-
+     
         protected override void Awake()
         {
             base.Awake();
-          
-          //  print($"Survivor {_id} created");
+  
         }
         private void Update()
         {
-            CheckForKeys();
+           
 
-        }
-
-        private void CheckForKeys()
-        {
-            if (key)
-            {
-                hasKey = true;
-            }
-            else
-            {
-                hasKey = false;
-            }
         }
 
         private void OnMouseDown()
         {
-           
+
             if (characterHealth.IsDead) return;
             AddToSelectedObjects(this);
             // add an effect
@@ -49,31 +33,22 @@ namespace com.sluggagames.keepUsAlive.CharacterSystem
             GameManager.Instance.AddSurviorToSelected(_survivor);
         }
 
-        public void AddKey(ActivationPad _key)
-        {
-            if (hasKey) return;
-            GameManager.Instance.IncreaseCurrentKeyValue(_key);
-            key = _key;
-        }
-        
-        public void RemoveKey()
-        {
-            if (!hasKey) return;
-            GameManager.Instance.DecreaseCurrentKeyValue(key);
-            key = null;
-        }
+        //public void AddKey(ActivationPad _key)
+        //{
+        //    if (hasKey) return;
+        //    //   GameManager.Instance.IncreaseCurrentKeyValue(_key);
+        //    key = _key;
+        //}
 
-        public void DropKey(ActivationPad _key)
-        {
-            if (!hasKey) return;
-            GameManager.Instance.DecreaseCurrentKeyValue(_key);
-           GameObject keyObject = GameManager.Instance.GetActivationPad(transform.position);
-            ActivationPad _newKey = keyObject.GetComponent<ActivationPad>();
-            _newKey.activationValue = _key.activationValue;
-            _newKey.activationTime = _key.activationTime;
+        //public void RemoveKey()
+        //{
+        //    if (!hasKey) return;
+        //    // GameManager.Instance.DecreaseCurrentKeyValue(key);
+        //    key = null;
+        //}
 
-        }
+      
 
-       
+
     }
 }

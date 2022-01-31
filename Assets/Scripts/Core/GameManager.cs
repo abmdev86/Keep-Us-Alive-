@@ -15,32 +15,27 @@ namespace com.sluggagames.keepUsAlive.Core
         Dictionary<string, Survivor> selectedSurvivors = new Dictionary<string, Survivor>();
         Dictionary<string, GameObject> selectedSurvivorPotraits = new Dictionary<string, GameObject>();
 
-        bool hasCharacter = false;
-        int levelKeyAmount = 0;
-        [SerializeField] GameObject activationPadPrefab; // move to spawner
+        //[SerializeField] GameObject activationPadPrefab;
+        public bool HasCharacter { get; private set; }
 
         [SerializeField] GameObject selectedCharPanel;
         [Tooltip("The max amount of characters the player can select at one time.")]
         [SerializeField] int maxSelectableCharacters = 20;
-        [SerializeField] Text keyAmountText; // move to UI manager.
+       
 
        
 
 
-        private void Start()
-        {
-            
-            keyAmountText.text = UpdateTextValue("Key(s)", 0);
-        }
+   
         private void Update()
         {
             // show character panel if we have a character to show.
-            selectedCharPanel.SetActive(hasCharacter);
+            selectedCharPanel.SetActive(HasCharacter);
            
            // if the dictionary has 1 or more characters in it then we have a character.
             if (GetSelectedCount() > 0)
             {
-                hasCharacter = true;
+                HasCharacter = true;
             }
 
             // right mouse clicking and having survivors selected will move them
@@ -58,29 +53,10 @@ namespace com.sluggagames.keepUsAlive.Core
             }
 
         }
-        public void IncreaseCurrentKeyValue(ActivationPad _key)
-        {
-            
-            levelKeyAmount += _key.activationValue;
-            keyAmountText.text = UpdateTextValue("Key", levelKeyAmount);
-            StoreKeyAmount(levelKeyAmount);
-        }
+       
+      
 
-        public void DecreaseCurrentKeyValue(ActivationPad _key)
-        {
-            levelKeyAmount -= _key.activationValue;
-            keyAmountText.text = UpdateTextValue("Key", levelKeyAmount);
-        }
-        void StoreKeyAmount(int _value)
-        {
-            PlayerPrefs.SetString("CurrentKeys", _value.ToString());
-        }
-
-        string UpdateTextValue(string msg, int v)
-        {
-            return $"{msg}: {v}";
-        }
-
+    
       
 
         /// <summary>
@@ -135,7 +111,7 @@ namespace com.sluggagames.keepUsAlive.Core
                 selectedSurvivorPotraits.Remove(_survivorToRemove.Id.ToString());
                 Destroy(_destroyThis);
                 selectedSurvivors.Remove(_survivorToRemove.Id);
-                hasCharacter = selectedSurvivors.Count > 0;
+                HasCharacter = selectedSurvivors.Count > 0;
             }
         }
 
@@ -154,7 +130,7 @@ namespace com.sluggagames.keepUsAlive.Core
 
                 }
                 selectedSurvivorPotraits.Clear();
-                hasCharacter = false;
+                HasCharacter = false;
             }
             else
             {
@@ -207,10 +183,10 @@ namespace com.sluggagames.keepUsAlive.Core
            
         }
 
-        public GameObject GetActivationPad(Vector3 _spawnPos)
-        {
-            return Instantiate(activationPadPrefab, _spawnPos, Quaternion.identity);
-        }
+        //public GameObject GetActivationPad(Vector3 _spawnPos)
+        //{
+        //    return Instantiate(activationPadPrefab, _spawnPos, Quaternion.identity);
+        //}
         public int GetSelectedCount()
         {
             return selectedSurvivors.Count;
