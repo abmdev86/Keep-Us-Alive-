@@ -1,7 +1,6 @@
 
-using com.sluggagames.keepUsAlive.Obstacle;
 using UnityEngine;
-using UnityEngine.UI;
+
 
 namespace com.sluggagames.keepUsAlive.LevelManagement
 {
@@ -10,6 +9,11 @@ namespace com.sluggagames.keepUsAlive.LevelManagement
 
         [SerializeField] internal Level levelData;
         [SerializeField] GameObject spawnPointPrefab;
+        [SerializeField]
+        internal bool hasWon = false;
+        internal bool hasLost = false;
+        QuestManager questManager;
+
 
       
         private void Awake()
@@ -18,7 +22,26 @@ namespace com.sluggagames.keepUsAlive.LevelManagement
             {
                 Debug.LogError("Missing levelData for levelManager", this);
             }
+            questManager = FindObjectOfType<QuestManager>();
+            if(questManager == null)
+            {
+                Debug.LogError("missing quest manager", this);
+            }
             Instantiate(levelData.enviromentPrefab, Vector3.zero, Quaternion.identity);
+        }
+
+        private void Update()
+        {
+            if(questManager.activeQuest.questStatus == Quest.Status.Complete)
+            {
+                print("won");
+
+                hasWon = true;
+            }else if(questManager.activeQuest.questStatus == Quest.Status.Failed)
+            {
+                print("lost");
+                hasLost = true;
+            }
         }
 
     }

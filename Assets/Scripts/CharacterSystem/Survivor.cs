@@ -14,11 +14,7 @@ namespace com.sluggagames.keepUsAlive.CharacterSystem
             base.Awake();
   
         }
-        private void Update()
-        {
-           
-
-        }
+       
 
         private void OnMouseDown()
         {
@@ -33,19 +29,7 @@ namespace com.sluggagames.keepUsAlive.CharacterSystem
             GameManager.Instance.AddSurviorToSelected(_survivor);
         }
 
-        //public void AddKey(ActivationPad _key)
-        //{
-        //    if (hasKey) return;
-        //    //   GameManager.Instance.IncreaseCurrentKeyValue(_key);
-        //    key = _key;
-        //}
-
-        //public void RemoveKey()
-        //{
-        //    if (!hasKey) return;
-        //    // GameManager.Instance.DecreaseCurrentKeyValue(key);
-        //    key = null;
-        //}
+       
 
       
 

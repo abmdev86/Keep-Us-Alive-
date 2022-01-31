@@ -111,7 +111,8 @@ namespace com.sluggagames.keepUsAlive.Core
                 selectedSurvivorPotraits.Remove(_survivorToRemove.Id.ToString());
                 Destroy(_destroyThis);
                 selectedSurvivors.Remove(_survivorToRemove.Id);
-                HasCharacter = selectedSurvivors.Count > 0;
+                // HasCharacter = selectedSurvivors.Count > 0;
+                HasCharacter = false;
             }
         }
 

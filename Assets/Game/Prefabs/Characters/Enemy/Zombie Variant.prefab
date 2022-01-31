@@ -83,14 +83,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f26d204dd55765e45b15d7ca765e5bab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _currentState: 0
+  _previousState: 0
+  _targets: []
+  _target: {fileID: 0}
   attackDistance: 2
   pursuitDistance: 4
   awareDistance: 6
   _patrolPath: {fileID: 0}
   _pointTolerance: 1
   _pointDwellTime: 1
-  _patrolSpeedFraction: 0.88
   _awarnessTime: 3
+  _patrolSpeedFraction: 0.88
 --- !u!114 &5478752282792948906
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -107,3 +111,21 @@ MonoBehaviour:
   characterIcon: {fileID: 21300000, guid: 4bc86a46290b95e46a4069755b8ad52f, type: 3}
   maxSpeed: 3
   characterHealth: {fileID: 0}
+  damage: 0.02
+  attackRate: 3.4
+--- !u!114 &8232823630208499379
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3843472765489771692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4cc28b429df8154caf6940b93140030, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  maxDistance: 10
+  angle: 45
+  visualize: 1

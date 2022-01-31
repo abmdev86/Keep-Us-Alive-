@@ -28,5 +28,5 @@ MonoBehaviour:
     initialStatus: 0
   - name: Keep Survivors alive
     optional: 0
-    isVisible: 1
-    initialStatus: 1
+    isVisible: 0
+    initialStatus: 0

@@ -101,7 +101,7 @@ namespace com.sluggagames.keepUsAlive.LevelManagement
         // quest that starts when game starts
         [SerializeField] Quest startingQuest = null;
         [SerializeField] Text objectiveSummary = null;
-        QuestStatus activeQuest;
+        internal QuestStatus activeQuest;
         private void Start()
         {
             if (startingQuest != null)
