@@ -1,59 +1,38 @@
 using com.sluggagames.keepUsAlive.Core;
+using com.sluggagames.keepUsAlive.LevelManagement;
 using com.sluggagames.keepUsAlive.Obstacle;
+using com.sluggagames.keepUsAlive.Utils;
 using UnityEngine;
 
 namespace com.sluggagames.keepUsAlive.CharacterSystem
 {
     public class Survivor : Character
     {
-        internal int keyAmount = 0;
-        internal bool hasKey = false;
-        internal ActivationPad key;
+     
+        protected override void Awake()
+        {
+            base.Awake();
+  
+        }
+       
+
+        private void OnMouseDown()
+        {
+
+            if (characterHealth.IsDead) return;
+            AddToSelectedObjects(this);
+            // add an effect
+        }
+        public void AddToSelectedObjects(Survivor _survivor)
+        {
+            if (_survivor.Id == null) return;
+            GameManager.Instance.AddSurviorToSelected(_survivor);
+        }
+
+       
+
       
-        private void Update()
-        {
-            if (keyAmount > 0)
-            {
-                hasKey = true;
-            }
-            else if (keyAmount <= 0)
-            {
-                hasKey = false;
-            }
 
-         
-            print($"hasKey? {hasKey}");
-        }
-
-        public void AddKey(ActivationPad _key)
-        {
-            if (hasKey) return;
-            keyAmount = _key.activationValue;
-            GameManager.Instance.IncreaseCurrentKeyValue(_key);
-            // keyAmount += 1;
-            key = _key;
-        }
-        
-        public void RemoveKey()
-        {
-            if (!hasKey) return;
-            GameManager.Instance.DecreaseCurrentKeyValue(key);
-            key = null;
-            hasKey = false;
-        }
-
-        public void DropKey(ActivationPad _key)
-        {
-            if (!hasKey) return;
-            GameManager.Instance.DecreaseCurrentKeyValue(_key);
-           GameObject keyObject = GameManager.Instance.GetActivationPad(transform.position);
-            ActivationPad _newKey = keyObject.GetComponent<ActivationPad>();
-            _newKey.activationValue = _key.activationValue;
-            _newKey.activationTime = _key.activationTime;
-
-        }
-
-        
 
     }
 }

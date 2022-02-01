@@ -43,5 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb0ace6199b68494fa6204eb9ee565d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedCharPanel: {fileID: 3826176121739329513, guid: f37b792d50be40547ba60a49aaf28fd1, type: 3}
-  maxSelectableCharacters: 20
+  activationPadPrefab: {fileID: 8980595182365109885, guid: 3951eba089e6add4ea4a379287237306, type: 3}
+  selectedCharPanel: {fileID: 0}
+  maxSelectableCharacters: 5
+  keyAmountText: {fileID: 0}

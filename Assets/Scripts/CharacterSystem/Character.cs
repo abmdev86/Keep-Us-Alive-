@@ -1,4 +1,5 @@
 using com.sluggagames.keepUsAlive.Core;
+using com.sluggagames.keepUsAlive.Utils;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -10,8 +11,8 @@ namespace com.sluggagames.keepUsAlive.CharacterSystem
     public class Character : MonoBehaviour
     {
        
-        int _id;
-        public int Id
+       internal string _id;
+        public string Id
         {
             get
             {
@@ -39,9 +40,9 @@ namespace com.sluggagames.keepUsAlive.CharacterSystem
         {
             mover = GetComponent<NavMeshAgent>();
             characterHealth = GetComponent<Health>();
-            int randomId = Random.Range(1, 100) * 1000;
-            _id = randomId;
-            
+            _id = this.GetID();
+            this.gameObject.name = "Character " +_id;
+
 
         }
         private void Start()
@@ -53,19 +54,10 @@ namespace com.sluggagames.keepUsAlive.CharacterSystem
                 _characterUI.SetTarget(this.characterHealth);
             }
         }
-        private void OnMouseDown()
-        {
-            if (this.gameObject.tag == "Enemy") return;
-            if (characterHealth.IsDead) return;
-            AddToSelectedObjects((Survivor)this);
-            // add an effect
-        }
+       
 
-        public void AddToSelectedObjects(Character _character)
-        {
-            if (_character.Id < 0) return;
-            GameManager.Instance.AddCharacterToSelected(_character);
-        }
+      
+     
 
         public void MoveCharacter(Vector3 _destination, float _speedFraction = 1)
         {

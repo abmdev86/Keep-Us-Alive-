@@ -10,7 +10,15 @@ namespace com.sluggagames.keepUsAlive.AI
         [Range(0, 1)]
         [SerializeField] internal float damage = .02f;
         [SerializeField] internal float attackRate = 3.4f;
+        float timeSinceLastAttack;
+        [SerializeField] float timeBetweenAttacks = 2f;
 
+        private void Update()
+        {
+            timeSinceLastAttack += Time.deltaTime;
+           
+
+        }
         public float Damage
         {
             get
@@ -19,10 +27,20 @@ namespace com.sluggagames.keepUsAlive.AI
             }
         }
 
-        internal IEnumerator Attack(Health _target)
+     
+        public void Attack(Health _target)
         {
-            _target.TakeDamage(damage);
-            yield return new WaitForSeconds(attackRate);
+         
+            if (_target.IsDead) return;
+            transform.LookAt(_target.transform);
+            if(timeSinceLastAttack > timeBetweenAttacks)
+            {
+                _target.TakeDamage(damage);
+                timeSinceLastAttack = 0;
+            }
+            
+            
+           
         }
     }
 }

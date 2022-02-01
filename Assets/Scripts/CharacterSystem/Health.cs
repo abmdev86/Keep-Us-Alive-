@@ -16,27 +16,23 @@ namespace com.sluggagames.keepUsAlive.CharacterSystem
                 return characterHealth;
             }
         }
-        [SerializeField] bool _isDead;
+       // [SerializeField] bool _isDead;
         public bool IsDead
         {
             get
             {
-                if (characterHealth <= 0)
-                {
-                    return _isDead = true;
-                }
-                else
-                {
-                    return _isDead = false;
-                }
+                return characterHealth <= 0;
             }
         }
 
         private void Update()
         {
+           
             if (IsDead)
             {
+                print($"Died so isdead is: {IsDead}");
                 Die();
+                return;
             }
         }
 
@@ -53,12 +49,12 @@ namespace com.sluggagames.keepUsAlive.CharacterSystem
             if (Survivor)
             {
                 // drop any held keys
-                GameManager.Instance.RemoveFromSelection((Character)Survivor);
-                Survivor.DropKey(Survivor.key);
-                
+                GameManager.Instance.RemoveFromSelection(Survivor);
+                // Survivor.DropKey(Survivor.key);
+
                 //play death animation
 
-                Destroy(Survivor.gameObject);
+                Destroy(Survivor.gameObject, 2f);
             }
             if (Monster)
             {
@@ -66,7 +62,7 @@ namespace com.sluggagames.keepUsAlive.CharacterSystem
 
                 Destroy(Monster.gameObject);
             }
-            
+
         }
     }
 }

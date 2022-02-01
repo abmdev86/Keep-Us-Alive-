@@ -53,38 +53,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5774424259801034861, guid: 70ac26cfdbbaa03419e7840ff107a95e, type: 3}
       propertyPath: m_Size.x
-      value: 6.9430027
+      value: 1.0125356
       objectReference: {fileID: 0}
     - target: {fileID: 5774424259801034861, guid: 70ac26cfdbbaa03419e7840ff107a95e, type: 3}
       propertyPath: m_Center.x
-      value: 2.971502
+      value: 0.0062679052
       objectReference: {fileID: 0}
     - target: {fileID: 5774424259801034861, guid: 70ac26cfdbbaa03419e7840ff107a95e, type: 3}
       propertyPath: m_Center.z
-      value: 1.826723e-15
+      value: -2.349265e-18
+      objectReference: {fileID: 0}
+    - target: {fileID: 5774424259801034861, guid: 70ac26cfdbbaa03419e7840ff107a95e, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5774424259801034863, guid: 70ac26cfdbbaa03419e7840ff107a95e, type: 3}
       propertyPath: m_Name
-      value: Door
+      value: Door Variant
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 70ac26cfdbbaa03419e7840ff107a95e, type: 3}
---- !u!1 &4365519737977004954 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5774424259801034863, guid: 70ac26cfdbbaa03419e7840ff107a95e, type: 3}
-  m_PrefabInstance: {fileID: 7833889881188586485}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &3396756041829944232
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4365519737977004954}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c4c7b5efe9c03da49b62fc4c75ff9111, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  KeyActivationAmount: 2
-  openDoorHeight: 0

@@ -16,13 +16,11 @@ namespace com.sluggagames.keepUsAlive.AI
     }
     public class EnemyAI : MonoBehaviour
     {
-        EnemyStates _currentState = EnemyStates.Patrol;
-        EnemyStates _previousState;
-
-        // TODO: Update from GameObject to Survivor.
-        GameObject[] _targets;
-        GameObject _target;
+        [SerializeField] EnemyStates _currentState = EnemyStates.Patrol;
+        [SerializeField] EnemyStates _previousState;
+        EnemyVisiblity visiblity;
         Enemy _enemy;
+       
 
         [Tooltip("How close does the target need to be in order for me to engage?")]
         [SerializeField] float attackDistance = 2f;
@@ -38,51 +36,89 @@ namespace com.sluggagames.keepUsAlive.AI
             }
         }
 
-        [Tooltip("How close does target have to be in order to start trying to get in attack range?")]
-        [SerializeField] float pursuitDistance = 4f;
-        [Tooltip("How close does my target need to be to make me aware?")]
-        [SerializeField] float awareDistance = 6f;
 
         [SerializeField] PatrolPath _patrolPath;
         [Tooltip("How close to the point until considered to have arrived?")]
         [SerializeField] float _pointTolerance;
         [Tooltip("How long should I wait at the waypoint?")]
         [SerializeField] float _pointDwellTime;
-        [Tooltip("How long the enemy will be aware of survivor presence")]
-        [SerializeField] float _awarnessTime = 3f;
+
         [Tooltip("How slow should I patrol compared to actual movement speed?")]
         [Range(0, 1)]
         [SerializeField] float _patrolSpeedFraction = 0.2f;
         int _currentWaypointIndex = 0;
         Vector3 originalPos;
-        float _timeSinceLastSeenSurvivor = Mathf.Infinity;
-        float _timeSinceArrivedAtPoint = Mathf.Infinity;
+        float _timeSinceLastSeenSurvivor;
+        float _timeSinceArrivedAtPoint;
+        
 
 
         private void Awake()
         {
             _enemy = GetComponent<Enemy>();
+            visiblity = GetComponent<EnemyVisiblity>();
+
         }
 
         private void Start()
         {
             originalPos = transform.position;
             _previousState = _currentState;
-            _targets = GameObject.FindGameObjectsWithTag("Player");
-            if (_targets.Length <= 0)
-            {
-                Debug.LogWarning("No targets found", this);
-            }
+        
         }
 
         private void Update()
         {
+           
             if (_enemy.characterHealth.IsDead) return;
-            // temp fix
-            UpdateTarget();
-            UpdateState();
+           if(visiblity.target == null)
+            {
+                if (!visiblity.UpdateTarget())
+                {
+                    _currentState = EnemyStates.Patrol;
 
-            switch (_currentState)
+                }
+                return;
+            }
+
+            if (visiblity == null)
+            {
+                Debug.LogError("Missing visibility", this);
+            }
+           
+            if (visiblity.targetIsVisible)
+            {
+
+                _previousState = _currentState;
+                _currentState = EnemyStates.Pursuit;
+            }
+            else if (!visiblity.targetIsVisible || visiblity.target == null)
+            {
+                _previousState = _currentState;
+                _currentState = EnemyStates.Patrol;
+            }
+
+
+            UpdateState(_currentState);
+
+            UpdateTimers();
+            
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if(other.tag == "Player")
+            {
+                if (other.gameObject.transform == visiblity.transform) return;
+                visiblity.SetTarget(other.gameObject.transform);
+            }
+        }
+
+
+        void UpdateState(EnemyStates currentState)
+        {
+         
+            switch (currentState)
             {
                 case EnemyStates.Patrol:
                     PatrolState();
@@ -94,77 +130,57 @@ namespace com.sluggagames.keepUsAlive.AI
                     PursuitState();
                     break;
                 case EnemyStates.Attack:
+                   
                     AttackState();
                     break;
+                default:
+                    PatrolState();
+                    break;
 
-            }
-            UpdateTimers();
-
-        }
-
-        void UpdateState()
-        {
-            EnemyStates cachedState;
-            if (_target && !IsAware(_target))
-            {
-                _target = null;
-            }
-
-            if (_target == null)
-            {
-                cachedState = _currentState;
-                _currentState = EnemyStates.Patrol;
-                _previousState = cachedState;
-                //print($"Changed from {_previousState} to {_currentState}");
-            }
-            else if (_target && InAttackRange(_target))
-            {
-                cachedState = _currentState;
-                _currentState = EnemyStates.Attack;
-                _previousState = cachedState;
-               // print($"Changed from {_previousState} to {_currentState}");
-
-            }
-            else if (_target && InPursuitRange(_target))
-            {
-                cachedState = _currentState;
-                _currentState = EnemyStates.Pursuit;
-                _previousState = cachedState;
-              //  print($"Changed from {_previousState} to {_currentState}");
-            }
-            else if (_timeSinceLastSeenSurvivor < _awarnessTime && IsAware(_target))
-            {
-                cachedState = _currentState;
-                _currentState = EnemyStates.Aware;
-                _previousState = cachedState;
-              //  print($"Changed from {_previousState} to {_currentState}");
 
             }
         }
-
-        void UpdateTarget()
-        {
-           
-
-            for (int i = 0; i < _targets.Length; i++)
-            {
-                if (_target == _targets[i]) return;
-                if (InAttackRange(_targets[i]))
-                {
-                    _target = _targets[i];
-
-                }
-            }
-        }
-
         void UpdateTimers()
         {
             _timeSinceArrivedAtPoint += Time.deltaTime;
             _timeSinceLastSeenSurvivor += Time.deltaTime;
         }
+        void PursuitState()
+        {
+            if (_currentState != EnemyStates.Pursuit) return;
+            if (visiblity.target == null)
+            {
+                _previousState = _currentState;
+                _currentState = EnemyStates.Patrol;
+              
+
+            }
+
+            if (_currentState == EnemyStates.Pursuit && !visiblity.targetIsVisible)
+            {
+                _previousState = _currentState;
+                _currentState = EnemyStates.Aware;
+                return;
+            }
+            if (InAttackRange())
+            {
+                _previousState = _currentState;
+                _currentState = EnemyStates.Attack;
+                UpdateState(_currentState);
+                return;
+            }
+            
+           if(visiblity.target)
+                _enemy.MoveCharacter(visiblity.target.position);
+
+        }
+
+
+
         void PatrolState()
         {
 
+            if (visiblity.targetIsVisible) return;
             Vector3 nextPos = originalPos;
             if (_patrolPath != null)
             {
@@ -181,39 +197,48 @@ namespace com.sluggagames.keepUsAlive.AI
                 _enemy.MoveCharacter(nextPos, _patrolSpeedFraction);
             }
 
-
-
-
         }
         void AwareState()
         {
-            _timeSinceLastSeenSurvivor = 0;
-            if (_target)
+            if (InAttackRange()) return;
+            _enemy.MoveCharacter(transform.position);
+            if (visiblity.targetIsVisible)
             {
-                if (_target.gameObject.tag == "Player")
-                {
-                    _previousState = _currentState;
-                    _currentState = EnemyStates.Pursuit;
-                }
-                else
-                {
-                    _currentState = _previousState;
-                }
+                _previousState = _currentState;
+                _currentState = EnemyStates.Pursuit;
+            }
+            else
+            {
+                _previousState = _currentState;
+                _currentState = EnemyStates.Patrol;
             }
 
 
-        }
-        void PursuitState()
-        {
-            _enemy.MoveCharacter(_target.transform.position);
 
         }
+
         void AttackState()
         {
+            if (_currentState != EnemyStates.Attack) return;
             _timeSinceLastSeenSurvivor = 0;
-            Health _attackTarget = _target.GetComponent<Health>();
-            _enemy.MoveCharacter(_attackTarget.transform.position);
-            StartCoroutine(_enemy.Attack(_attackTarget));
+            
+            Health _attackTarget = visiblity.target.GetComponent<Health>();
+         
+            //_enemy.MoveCharacter(_attackTarget.transform.position);
+            if (!InAttackRange() && visiblity.targetIsVisible)
+            {
+                _previousState = _currentState;
+                _currentState = EnemyStates.Pursuit;
+                return;
+
+            }
+            else if (!InAttackRange() && !visiblity.targetIsVisible)
+            {
+                _previousState = _currentState;
+                _currentState = EnemyStates.Aware;
+                return;
+            }
+            _enemy.Attack(_attackTarget);
 
         }
 
@@ -230,32 +255,26 @@ namespace com.sluggagames.keepUsAlive.AI
             _currentWaypointIndex = _patrolPath.GetNextIndex(_currentWaypointIndex);
         }
 
-        bool InAttackRange(GameObject _target)
+        bool InAttackRange()
         {
-            float distanceToTarget = GetDistanceToTarget(_target);
+            if (visiblity.target == null) return false;
+            float distanceToTarget = GetDistanceToTarget(visiblity.target);
             return distanceToTarget < attackDistance;
 
         }
 
-        bool InPursuitRange(GameObject _target)
-        {
-            float distanceToTarget = GetDistanceToTarget(_target);
-            return distanceToTarget < pursuitDistance && distanceToTarget > attackDistance;
-        }
-        bool IsAware(GameObject _target)
-        {
-            float distanceToTarget = GetDistanceToTarget(_target);
-            return distanceToTarget < awareDistance;
-        }
+     
+
+
         bool AtPoint()
         {
             float distanceToWaypoint = GetDistanceToPoint(GetCurrentWaypoint());
 
             return distanceToWaypoint < _pointTolerance;
         }
-        float GetDistanceToTarget(GameObject _target)
+        float GetDistanceToTarget(Transform _target)
         {
-            return Vector3.Distance(transform.position, _target.transform.position);
+            return Vector3.Distance(transform.position, _target.position);
         }
         float GetDistanceToPoint(Vector3 _point)
         {
@@ -265,10 +284,8 @@ namespace com.sluggagames.keepUsAlive.AI
         {
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(transform.position, attackDistance);
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawWireSphere(transform.position, pursuitDistance);
-            Gizmos.color = Color.green;
-            Gizmos.DrawWireSphere(transform.position, awareDistance);
+            
+
         }
 
     }
