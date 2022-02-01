@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7185ed7a81d078d49a466e5024d0ad9c, type: 3}
+  m_Name: CombatFX
+  m_EditorClassIdentifier: 
+  clips:
+  - {fileID: 8300000, guid: d0b6948d2b0c88144a15752aa2d4df01, type: 3}
+  - {fileID: 8300000, guid: 8e0daeb9b50fd1d4f8c510fc52c040a3, type: 3}
