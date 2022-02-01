@@ -1,8 +1,5 @@
 using com.sluggagames.keepUsAlive.Core;
-using com.sluggagames.keepUsAlive.LevelManagement;
-using com.sluggagames.keepUsAlive.Obstacle;
-using com.sluggagames.keepUsAlive.Utils;
-using UnityEngine;
+
 
 namespace com.sluggagames.keepUsAlive.CharacterSystem
 {

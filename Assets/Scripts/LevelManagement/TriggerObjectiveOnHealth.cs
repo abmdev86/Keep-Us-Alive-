@@ -20,10 +20,10 @@ namespace com.sluggagames.keepUsAlive.LevelManagement
 
         private void Update()
         {
-            print(characterHealth.IsDead);
+            
             if (this.characterHealth.IsDead)
             {
-                print("failing quest");
+                
                 objective.Invoke();
             }
         }

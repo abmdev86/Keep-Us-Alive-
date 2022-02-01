@@ -31,6 +31,6 @@ MonoBehaviour:
     isVisible: 1
     initialStatus: 1
   - name: Keep Survivors alive 2
-    optional: 0
+    optional: 1
     isVisible: 1
     initialStatus: 1

@@ -9,7 +9,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1292794721093484912, guid: ea159284de6d06e43843cc11a9cd0a61, type: 3}
       propertyPath: m_Name
-      value: Survivor Variant
+      value: Survivor Variant (1)
       objectReference: {fileID: 0}
     - target: {fileID: 1292794721093484912, guid: ea159284de6d06e43843cc11a9cd0a61, type: 3}
       propertyPath: m_TagString
@@ -21,7 +21,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1292794721093484924, guid: ea159284de6d06e43843cc11a9cd0a61, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -18.27
+      value: -18.18
       objectReference: {fileID: 0}
     - target: {fileID: 1292794721093484924, guid: ea159284de6d06e43843cc11a9cd0a61, type: 3}
       propertyPath: m_LocalPosition.y
@@ -29,7 +29,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1292794721093484924, guid: ea159284de6d06e43843cc11a9cd0a61, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 3.76
+      value: 16.92
       objectReference: {fileID: 0}
     - target: {fileID: 1292794721093484924, guid: ea159284de6d06e43843cc11a9cd0a61, type: 3}
       propertyPath: m_LocalRotation.w
@@ -87,7 +87,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &2096805493
+--- !u!114 &822059095
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -102,7 +102,7 @@ MonoBehaviour:
   objective:
     quest: {fileID: 11400000, guid: 9d47c743c5c7e7444ab3a82d32811c36, type: 2}
     statusToApply: 2
-    objectiveNumber: 3
+    objectiveNumber: 4
 --- !u!114 &2858499016246060815
 MonoBehaviour:
   m_ObjectHideFlags: 0

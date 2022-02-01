@@ -1,4 +1,5 @@
 
+using com.sluggagames.keepUsAlive.Core;
 using UnityEngine;
 
 
@@ -32,15 +33,17 @@ namespace com.sluggagames.keepUsAlive.LevelManagement
 
         private void Update()
         {
+            
             if(questManager.activeQuest.questStatus == Quest.Status.Complete)
             {
                 print("won");
 
                 hasWon = true;
-            }else if(questManager.activeQuest.questStatus == Quest.Status.Failed)
+            }else if(questManager.activeQuest.questStatus == Quest.Status.Failed || !GameManager.Instance.CheckForSurvivors())
             {
                 print("lost");
                 hasLost = true;
+                GameManager.Instance.GameOver();
             }
         }
 

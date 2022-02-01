@@ -1,11 +1,11 @@
-using Cinemachine;
+
 using com.sluggagames.keepUsAlive.CharacterSystem;
-using com.sluggagames.keepUsAlive.Obstacle;
 using com.sluggagames.keepUsAlive.Utils;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+
 
 namespace com.sluggagames.keepUsAlive.Core
 {
@@ -53,12 +53,23 @@ namespace com.sluggagames.keepUsAlive.Core
             }
 
         }
-       
-      
 
-    
-      
+        public void GameOver()
+        {
+            SceneManager.LoadScene(0);
+        }
 
+        public void StartGame()
+        {
+            SceneManager.LoadScene(1);
+        }
+        public bool CheckForSurvivors()
+        {
+            Survivor[] survivors = GameObject.FindObjectsOfType<Survivor>();
+            if (survivors.Length <= 0) return false;
+            return true;
+        }
+  
         /// <summary>
         ///  Gets the current ScreenPointToRay of the mousePosition
         /// </summary>
@@ -184,10 +195,7 @@ namespace com.sluggagames.keepUsAlive.Core
            
         }
 
-        //public GameObject GetActivationPad(Vector3 _spawnPos)
-        //{
-        //    return Instantiate(activationPadPrefab, _spawnPos, Quaternion.identity);
-        //}
+        
         public int GetSelectedCount()
         {
             return selectedSurvivors.Count;

@@ -30,7 +30,7 @@ namespace com.sluggagames.keepUsAlive.CharacterSystem
            
             if (IsDead)
             {
-                print($"Died so isdead is: {IsDead}");
+               
                 Die();
                 return;
             }

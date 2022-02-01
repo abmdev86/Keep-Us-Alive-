@@ -39,7 +39,7 @@ namespace com.sluggagames.keepUsAlive.AI
         {
             if (_target == null) return;
             target = _target;
-            print($"set new target to {_target.name}");
+           
         }
         private void Start()
         {

@@ -117,6 +117,18 @@ namespace com.sluggagames.keepUsAlive.LevelManagement
             Debug.Log($"Started quest {activeQuest.questData.questName}");
         }
 
+        private void Update()
+        {
+            foreach(KeyValuePair<int,Quest.Status> obj in activeQuest.objectiveStatues)
+            {
+                if(obj.Value == Quest.Status.Failed)
+                {
+                    print("failed Objective losing points");
+                }
+            }
+            print(activeQuest.questStatus);
+        }
+
         void UpdateObjectiveSummaryText()
         {
             string label;

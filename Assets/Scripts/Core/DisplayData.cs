@@ -83,7 +83,7 @@ namespace com.sluggagames.keepUsAlive.Core
             }
             target = _target;
             targetTransform = this.target.GetComponent<Transform>();
-            targetRenderer = this.target.GetComponent<Renderer>();
+            targetRenderer = this.target.GetComponentInChildren<Renderer>();
            
             NavMeshAgent navAgent = target.GetComponent<NavMeshAgent>();
 
