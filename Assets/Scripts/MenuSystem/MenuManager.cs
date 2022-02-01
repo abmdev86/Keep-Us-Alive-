@@ -16,7 +16,7 @@ namespace com.sluggagames.keepUsAlive.MenuSystem
         public void ShowMenu(Menu _menuToShow)
         {
             // is this the menu we are tracking
-            if (menus.Contains(_menuToShow))
+            if (menus.Contains(_menuToShow) == false)
             {
                 Debug.Log($"{_menuToShow.name} is in the list of menus");
                 return;

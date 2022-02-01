@@ -26,6 +26,20 @@ namespace com.sluggagames.keepUsAlive.Utils
                 return _instance;
             }
         }
+        private static T FindOrCreateInstance()
+        {
+            var instance = GameObject.FindObjectOfType<T>();
+            if(instance != null)
+            {
+                return instance;
+            }
+            var name = typeof(T).Name + " Singleton";
+            var containerGameObject = new GameObject(name);
+
+            var singletonComponent = containerGameObject.AddComponent<T>();
+            return singletonComponent;
+
+        }
         protected virtual void Awake()
         {
             _instance = this as T;
