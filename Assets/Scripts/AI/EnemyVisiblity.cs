@@ -1,8 +1,9 @@
 #if UNITY_EDITOR
-using System.Collections.Generic;
+
 using UnityEditor;
 #endif
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace com.sluggagames.keepUsAlive.AI
 {
