@@ -19,15 +19,18 @@ namespace com.sluggagames.keepUsAlive.CharacterSystem
        // [SerializeField] bool _isDead;
         public bool IsDead
         {
-            get;
-            private set;
+            get
+            {
+                return characterHealth <= 0;
+            }
         }
 
         private void Update()
         {
-            IsDead = characterHealth <= 0;
+           
             if (IsDead)
             {
+                print($"Died so isdead is: {IsDead}");
                 Die();
                 return;
             }
@@ -51,7 +54,7 @@ namespace com.sluggagames.keepUsAlive.CharacterSystem
 
                 //play death animation
 
-                Destroy(Survivor.gameObject);
+                Destroy(Survivor.gameObject, 2f);
             }
             if (Monster)
             {

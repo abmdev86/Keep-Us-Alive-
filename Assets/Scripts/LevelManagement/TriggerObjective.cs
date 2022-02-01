@@ -19,6 +19,7 @@ namespace com.sluggagames.keepUsAlive.LevelManagement
             {
                
                 this.objective.Invoke();
+                
                 gameObject.SetActive(false);
             }
         }

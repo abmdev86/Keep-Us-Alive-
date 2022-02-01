@@ -33,7 +33,7 @@ namespace com.sluggagames.keepUsAlive.AI
         public bool targetIsVisible { get; private set; }
 
         List<Transform> targets = new List<Transform>();
-
+        GameObject[] _survivorsInMap;
 
         public void SetTarget(Transform _target)
         {
@@ -43,19 +43,22 @@ namespace com.sluggagames.keepUsAlive.AI
         }
         private void Start()
         {
-            UpdateTarget();
+            _survivorsInMap = GameObject.FindGameObjectsWithTag("Player");
+            // set random target.
+            target = _survivorsInMap[Random.Range(0, _survivorsInMap.Length)].transform;
 
-            print(target);
         }
        
-        public void UpdateTarget()
+        public bool UpdateTarget()
         {
            
             targets.Clear();
-            GameObject[] _survivorsInMap = GameObject.FindGameObjectsWithTag("Player");
-            
+   
+            if (_survivorsInMap.Length == 0) return false;
+           
             for (int i = 0; i < _survivorsInMap.Length; i++)
             {
+                if (_survivorsInMap[i] == null) continue;
                 if (targets.Contains(_survivorsInMap[i].transform)) continue;
 
                 targets.Add(_survivorsInMap[i].transform);
@@ -71,21 +74,25 @@ namespace com.sluggagames.keepUsAlive.AI
                 }
 
             }
-            else
-            {
-                this.enabled = false;
-            }
+            return true;
         }
 
         private void Update()
         {
+            if(_survivorsInMap.Length == 0)
+            {
+                print("No survivors left");
+                target = null;
+                Destroy(gameObject);
+            }
+
             if (target == null)
             {
-                Debug.LogWarning("Lost target", this);
                 UpdateTarget();
+                
                 return;
             }
-          
+
             targetIsVisible = CheckVisibility();
             if (visualize)
             {

@@ -21,7 +21,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1292794721093484924, guid: ea159284de6d06e43843cc11a9cd0a61, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -18.18
+      value: -18.27
       objectReference: {fileID: 0}
     - target: {fileID: 1292794721093484924, guid: ea159284de6d06e43843cc11a9cd0a61, type: 3}
       propertyPath: m_LocalPosition.y
@@ -29,7 +29,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1292794721093484924, guid: ea159284de6d06e43843cc11a9cd0a61, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 16.92
+      value: 3.76
       objectReference: {fileID: 0}
     - target: {fileID: 1292794721093484924, guid: ea159284de6d06e43843cc11a9cd0a61, type: 3}
       propertyPath: m_LocalRotation.w
@@ -87,6 +87,22 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &2096805493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1747978054828632056}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f49815e71f3bba642a90525d4c836b4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objective:
+    quest: {fileID: 11400000, guid: 9d47c743c5c7e7444ab3a82d32811c36, type: 2}
+    statusToApply: 2
+    objectiveNumber: 3
 --- !u!114 &2858499016246060815
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -100,7 +116,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterUIPrefab: {fileID: 839938085579549767, guid: e5573d6abd31d8743946dcd4424aa204, type: 3}
-  characterIcon: {fileID: 21300000, guid: 3702440557ab0094ca893fae08442652, type: 3}
+  characterIcon: {fileID: 21300000, guid: bb09c0d966b93504fb473fa79f84b274, type: 3}
   maxSpeed: 5
   characterHealth: {fileID: 0}
-  hasKey: 0

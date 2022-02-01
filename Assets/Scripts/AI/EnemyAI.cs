@@ -71,7 +71,15 @@ namespace com.sluggagames.keepUsAlive.AI
         {
            
             if (_enemy.characterHealth.IsDead) return;
-          
+           if(visiblity.target == null)
+            {
+                if (!visiblity.UpdateTarget())
+                {
+                    _currentState = EnemyStates.Patrol;
+
+                }
+                return;
+            }
 
             if (visiblity == null)
             {
@@ -109,7 +117,7 @@ namespace com.sluggagames.keepUsAlive.AI
 
         void UpdateState(EnemyStates currentState)
         {
-            print($"{currentState} to change");
+         
             switch (currentState)
             {
                 case EnemyStates.Patrol:
@@ -122,7 +130,7 @@ namespace com.sluggagames.keepUsAlive.AI
                     PursuitState();
                     break;
                 case EnemyStates.Attack:
-                    print("Attacking");
+                   
                     AttackState();
                     break;
                 default:
@@ -162,7 +170,7 @@ namespace com.sluggagames.keepUsAlive.AI
                 return;
             }
             
-           
+           if(visiblity.target)
                 _enemy.MoveCharacter(visiblity.target.position);
 
         }
@@ -213,7 +221,7 @@ namespace com.sluggagames.keepUsAlive.AI
         {
             if (_currentState != EnemyStates.Attack) return;
             _timeSinceLastSeenSurvivor = 0;
-            print("Attacking in AttackState method");
+            
             Health _attackTarget = visiblity.target.GetComponent<Health>();
          
             //_enemy.MoveCharacter(_attackTarget.transform.position);

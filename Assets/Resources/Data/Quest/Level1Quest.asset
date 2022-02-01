@@ -22,11 +22,15 @@ MonoBehaviour:
     optional: 0
     isVisible: 1
     initialStatus: 0
-  - name: Unlock door
+  - name: Get 3rd Key
     optional: 0
-    isVisible: 0
+    isVisible: 1
     initialStatus: 0
-  - name: Keep Survivors alive
+  - name: Keep Survivors alive 1
     optional: 0
-    isVisible: 0
-    initialStatus: 0
+    isVisible: 1
+    initialStatus: 1
+  - name: Keep Survivors alive 2
+    optional: 0
+    isVisible: 1
+    initialStatus: 1

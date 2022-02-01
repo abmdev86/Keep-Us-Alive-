@@ -30,7 +30,7 @@ namespace com.sluggagames.keepUsAlive.AI
      
         public void Attack(Health _target)
         {
-            Debug.Log("Attacking", this);
+         
             if (_target.IsDead) return;
             transform.LookAt(_target.transform);
             if(timeSinceLastAttack > timeBetweenAttacks)
