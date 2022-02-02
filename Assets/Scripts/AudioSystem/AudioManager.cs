@@ -100,7 +100,20 @@ namespace com.sluggagames.keepUsAlive.AudioSystem
             }
             if (!_musicDictionary.ContainsKey("Music")) return;
          
-            PlayMusic("Music");
+            MenuMusic("Music");
+        }
+
+        void MenuMusic(string _musicName)
+        {
+            if (_listener == null)
+            {
+                _listener = FindObjectOfType<AudioListener>();
+            }
+            
+            var clip = _musicDictionary[_musicName].GetMainMenuMusic();
+            if (!clip) return;
+            _source.clip = clip;
+            _source.Play();
         }
 
         public void PlayMusic(string _musicName)

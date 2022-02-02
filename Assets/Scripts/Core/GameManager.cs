@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-
+using com.sluggagames.keepUsAlive.AudioSystem;
 
 namespace com.sluggagames.keepUsAlive.Core
 {
@@ -21,14 +21,21 @@ namespace com.sluggagames.keepUsAlive.Core
         [SerializeField] GameObject selectedCharPanel;
         [Tooltip("The max amount of characters the player can select at one time.")]
         [SerializeField] int maxSelectableCharacters = 20;
-       
 
-       
+        private void Start()
+        {
+            if(SceneManager.GetActiveScene().buildIndex == 0)
+            {
+                AudioManager.Instance.PlayMenuMusic();
+            }
+        }
 
 
-   
+
+
         private void Update()
         {
+            if (!selectedCharPanel) return;
             // show character panel if we have a character to show.
             selectedCharPanel.SetActive(HasCharacter);
            
@@ -56,12 +63,12 @@ namespace com.sluggagames.keepUsAlive.Core
 
         public void GameOver()
         {
-            SceneManager.LoadScene(0);
+            GameSceneManager.Instance.LoadLevelByIndex(0);
         }
 
-        public void StartGame()
+        public void StartLevel(int _index)
         {
-            SceneManager.LoadScene(1);
+            GameSceneManager.Instance.LoadLevelByIndex(_index);
         }
         public bool CheckForSurvivors()
         {

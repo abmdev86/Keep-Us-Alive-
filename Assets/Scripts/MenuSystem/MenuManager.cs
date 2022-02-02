@@ -1,17 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace com.sluggagames.keepUsAlive.MenuSystem
 {
     public class MenuManager : MonoBehaviour
     {
         [SerializeField] List<Menu> menus = new List<Menu>();
+       
 
         private void Start()
         {
             ShowMenu(menus[0]);
         }
+
+
 
         public void ShowMenu(Menu _menuToShow)
         {
